@@ -1,0 +1,105 @@
+@font-face {
+  font-family: 'GmarketSansBold';
+  src: url('/fonts/GMARKETSANSBOLD.OTF') format('opentype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'GmarketSansLight';
+  src: url('/fonts/GMARKETSANSLIGHT.OTF') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 1200;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modalContent {
+  background-color: #fff;
+  margin: 15% auto;
+  padding: 30px;
+  border: 1px solid #ddd;
+  width: 90%;
+  max-width: 600px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  text-align: center;
+  position: relative;
+}
+
+.close {
+  color: #aaa;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modalHeader {
+  font-family: 'GmarketSansBold', sans-serif;
+  font-size: 24px;
+  margin-bottom: 5px;
+}
+
+.modalSubHeader {
+  font-family: 'GmarketSansLight', sans-serif;
+  font-size: 14px;
+  color: #888;
+  margin-bottom: 20px;
+}
+
+.modalBody {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.inputField input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  text-align: center;
+}
+
+.modalFooter {
+  display: flex;
+  justify-content: center;
+}
+
+.modalButton {
+  width: 100%;
+  padding: 10px;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.modalButton:hover {
+  background-color: #555;
+}

@@ -1,0 +1,25 @@
+.container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  padding-top: 60px; /* HeaderBar 높이에 맞게 패딩 추가 */
+}
+
+.mapContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.overlayContainer {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  z-index: 1000; /* Ensure it stays above the map */
+}

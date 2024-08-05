@@ -1,0 +1,92 @@
+@import './home/components.css';
+@import './home/index.css';
+@import './home/NewJeanSeHomePage.css';
+@import './home/styles.css';
+/* Import other global styles or reset styles if any */
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Gmarket Sans', sans-serif;
+  box-sizing: border-box;
+  background-color: var(--teal_50);
+}
+
+* {
+  box-sizing: border-box;
+  line-height: normal;
+  font-family: inherit;
+  margin: 0; /* 변경된 부분 */
+}
+
+[type="checkbox"] {
+  margin: 0px;
+}
+
+input {
+  background-color: transparent;
+  width: 100%;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+[type="text"],
+input:where(:not([type])),
+[type="email"],
+[type="url"],
+[type="password"],
+[type="number"],
+[type="date"],
+[type="datetime-local"],
+[type="month"],
+[type="search"],
+[type="tel"],
+[type="time"],
+[type="week"],
+[multiple],
+textarea,
+select,
+button {
+  appearance: none;
+  background-color: transparent;
+  border-color: unset;
+  border-width: 0;
+  border-radius: unset;
+  padding: unset;
+  font-size: unset;
+  line-height: unset;
+  color: inherit;
+}
+
+input:focus-visible,
+[multiple]:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: none;
+}
+
+/* 추가된 전역 스타일 */
+h2 {
+  color: #333;
+  font-family: 'GmarketSansBold', sans-serif; /* 추가된 폰트 적용 */
+}
+
+p {
+  color: #555;
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #007bff; /* 기본 버튼 배경색 */
+  color: white; /* 기본 버튼 텍스트 색 */
+}
+
+button:hover {
+  background-color: #0056b3; /* 호버 시 버튼 배경색 */
+}

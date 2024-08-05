@@ -1,0 +1,78 @@
+.sidebar {
+  position: absolute;
+  top: 60px; /* Adjust according to HeaderBar height */
+  left: 0;
+  height: calc(100% - 60px); /* Adjust according to HeaderBar height */
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  z-index: 1100;
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out;
+}
+
+.closed {
+  transform: translateX(-100%);
+}
+
+.open {
+  transform: translateX(0);
+}
+
+.toggleButton {
+  position: absolute;
+  top: 50%;
+  right: -25px;
+  width: 25px;
+  height: 25px;
+  background: #007bff;
+  color: white;
+  text-align: center;
+  line-height: 25px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 1200;
+  transform: translateY(-50%);
+}
+
+.resizeButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 5px;
+  height: 100%;
+  cursor: ew-resize;
+  z-index: 1100;
+}
+
+.content {
+  height: 100%;
+  overflow-y: auto;
+  padding: 10px;
+}
+
+.section {
+  height: 600px; /* 고정된 섹션 높이 */
+  padding: 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+.sectionHeader {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.sectionContent {
+  padding: 10px 0;
+}
+
+.chartPlaceholder {
+  width: 100%;
+  height: 500px; /* 고정된 차트 높이 */
+  border: 2px dashed #007bff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #007bff;
+  font-size: 16px;
+  font-weight: bold;
+}
