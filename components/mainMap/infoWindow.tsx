@@ -1,10 +1,11 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from './infoWindow.module.css';
 
 declare global {
 	interface Window {
 		kakao: any;
 		infoWindowClose: () => void;
+		toggleFavorite: (polygonId: string) => void;
 	}
 }
 
@@ -12,20 +13,25 @@ interface InfoWindowProps {
 	map: any;
 	position: any;
 	content: string;
-	marker: any;
+	polygonId: string; // 폴리곤 ID 추가
 	onLoad: (dimensions: { width: number; height: number }) => void;
-	onClose: () => void; // onClose 함수 추가
+	onClose: () => void;
+	onToggleFavorite: (polygonId: string) => void; // 즐겨찾기 토글 콜백 추가
+	isFavorite: boolean; // 즐겨찾기 상태 추가
 }
 
 const InfoWindow: React.FC<InfoWindowProps> = ({
 	map,
 	position,
 	content,
-	marker,
+	polygonId,
 	onLoad,
-	onClose, // onClose 함수 추가
+	onClose,
+	onToggleFavorite,
+	isFavorite,
 }) => {
 	const infowindowRef = useRef<any>(null);
+	const markerRef = useRef<any>(null); // 마커 레퍼런스 추가
 
 	useEffect(() => {
 		if (infowindowRef.current) {
@@ -36,16 +42,33 @@ const InfoWindow: React.FC<InfoWindowProps> = ({
 			if (infowindowRef.current) {
 				infowindowRef.current.close();
 			}
-			onClose(); // onClose 함수 호출
+			onClose();
 		};
+
+		window.toggleFavorite = (id: string) => {
+			if (id === polygonId) {
+				onToggleFavorite(id);
+			}
+		};
+
+		// 마커 생성
+		const marker = new window.kakao.maps.Marker({
+			position: position,
+		});
+		marker.setMap(map);
+		markerRef.current = marker;
 
 		const infowindow = new window.kakao.maps.InfoWindow({
 			content: `
 				<div class="${styles.infoWindowContent}">
-					<span class="${styles.close}" onclick="window.infoWindowClose()">×</span> <!-- close 추가 -->
-					<div class="${styles.infoWindowTitle}">${content}</div>
+					<span class="${styles.close}" onclick="window.infoWindowClose()">×</span>
+					<div class="${styles.infoWindowTitle}">
+						<span class="${styles.favorite} ${
+							isFavorite ? styles.favoriteActive : ''
+						}" onclick="window.toggleFavorite('${polygonId}')">★</span>
+						${content}
+					</div>
 					<div class="${styles.chartContainer}">
-						<!-- 차트가 들어갈 공간 -->
 					</div>
 				</div>
 			`,
@@ -54,7 +77,6 @@ const InfoWindow: React.FC<InfoWindowProps> = ({
 		infowindow.open(map, marker);
 		infowindowRef.current = infowindow;
 
-		// 인포윈도우가 로드된 후 너비와 높이 계산
 		const infoWindowElement = document.querySelector(
 			`.${styles.infoWindowContent}`,
 		);
@@ -67,8 +89,20 @@ const InfoWindow: React.FC<InfoWindowProps> = ({
 			if (infowindowRef.current) {
 				infowindowRef.current.close();
 			}
+			if (markerRef.current) {
+				markerRef.current.setMap(null);
+			}
 		};
-	}, [map, position, content, marker, onLoad, onClose]);
+	}, [
+		map,
+		position,
+		content,
+		onLoad,
+		onClose,
+		isFavorite,
+		polygonId,
+		onToggleFavorite,
+	]);
 
 	return null;
 };

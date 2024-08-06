@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import Head from 'next/head';
 import axios from 'axios';
 import styles from './kakaoMap.module.css';
@@ -10,15 +10,24 @@ declare global {
 	}
 }
 
+interface Area {
+	name: string;
+	path: any[];
+	location: string;
+}
+
 const KakaoMap: React.FC = () => {
 	const mapRef = useRef<any>(null);
-	const markerRef = useRef<any>(null);
 	const [infoWindowData, setInfoWindowData] = useState<{
 		position: any;
 		content: string;
-		marker: any;
+		polygonId: string;
 	} | null>(null);
 	const [selectedPolygon, setSelectedPolygon] = useState<any>(null);
+	const [favoritePolygons, setFavoritePolygons] = useState<Set<string>>(() => {
+		const savedFavorites = localStorage.getItem('favoritePolygons');
+		return savedFavorites ? new Set(JSON.parse(savedFavorites)) : new Set();
+	});
 
 	useEffect(() => {
 		const apiKey = process.env.NEXT_PUBLIC_KAKAO_API_KEY;
@@ -52,7 +61,7 @@ const KakaoMap: React.FC = () => {
 				let detailMode = false;
 				let level: number;
 				let polygons: any[] = [];
-				let areas: any[] = [];
+				let areas: Area[] = [];
 
 				const calculateCentroid = (path: any) => {
 					let xSum = 0;
@@ -115,7 +124,7 @@ const KakaoMap: React.FC = () => {
 						});
 				};
 
-				const displayArea = (area: any) => {
+				const displayArea = (area: Area) => {
 					const polygon = new window.kakao.maps.Polygon({
 						map,
 						path: area.path,
@@ -166,11 +175,8 @@ const KakaoMap: React.FC = () => {
 							selectedPolygon.setOptions({ fillColor: '#fff' });
 							if (selectedPolygon === polygon) {
 								setSelectedPolygon(null);
-								if (markerRef.current) {
-									markerRef.current.setMap(null);
-								}
 								setInfoWindowData(null);
-								return; // 현재 폴리곤을 다시 클릭했으므로 마커와 인포윈도우를 숨기고 종료합니다.
+								return; // 현재 폴리곤을 다시 클릭했으므로 인포윈도우를 숨기고 종료합니다.
 							}
 						}
 						polygon.setOptions({ fillColor: '#09f' });
@@ -184,56 +190,14 @@ const KakaoMap: React.FC = () => {
 								map.panTo(center);
 							} else {
 								// 시군구 단위
-								addMarker(center, '/images/map-marker.svg', area.name);
 								setInfoWindowData({
 									position: center,
 									content: area.name,
-									marker: markerRef.current,
+									polygonId: area.location,
 								});
 							}
 						}
 					});
-				};
-
-				const addMarker = (
-					position: any,
-					imageSrc: string,
-					content: string,
-				) => {
-					if (markerRef.current) {
-						markerRef.current.setMap(null);
-					}
-
-					const imageSize = new window.kakao.maps.Size(64, 69);
-					const imageOption = { offset: new window.kakao.maps.Point(27, 69) };
-					const markerImage = new window.kakao.maps.MarkerImage(
-						imageSrc,
-						imageSize,
-						imageOption,
-					);
-					const marker = new window.kakao.maps.Marker({
-						position: position,
-						image: markerImage,
-					});
-					marker.setMap(map);
-					markerRef.current = marker;
-
-					const headerBarHeight =
-						document.querySelector(`.${styles.headerBar}`)?.clientHeight || 0;
-					const mapHeight = container.offsetHeight;
-					const mapHeightAdjustment = 26; // 26px adjustment
-
-					const moveMap = () => {
-						const newCenter = new window.kakao.maps.LatLng(
-							position.getLat() -
-								((headerBarHeight + mapHeightAdjustment) / mapHeight) * 0.1,
-							position.getLng(),
-						);
-						map.panTo(newCenter);
-					};
-
-					setInfoWindowData({ position, content, marker });
-					moveMap();
 				};
 
 				window.kakao.maps.event.addListener(map, 'zoom_changed', function () {
@@ -251,9 +215,6 @@ const KakaoMap: React.FC = () => {
 
 				const removePolygon = () => {
 					polygons.forEach(polygon => polygon.setMap(null));
-					if (markerRef.current) {
-						markerRef.current.setMap(null);
-					}
 					setInfoWindowData(null);
 					areas = [];
 					polygons = [];
@@ -269,21 +230,35 @@ const KakaoMap: React.FC = () => {
 		};
 	}, []);
 
+	const handleToggleFavorite = useCallback((polygonId: string) => {
+		setFavoritePolygons(prevFavorites => {
+			const newFavorites = new Set(prevFavorites);
+			if (newFavorites.has(polygonId)) {
+				newFavorites.delete(polygonId);
+			} else {
+				newFavorites.add(polygonId);
+			}
+			localStorage.setItem(
+				'favoritePolygons',
+				JSON.stringify(Array.from(newFavorites)),
+			);
+			return newFavorites;
+		});
+	}, []);
+
 	return (
 		<>
 			<Head>
-				<style>{`
-          .area {
-            position: absolute;
-            background: #fff;  
-            border: 1px solid #888;
-            border-radius: 3px;
-            font-size: 12px;
-            top: -5px;
-            left: 15px;
-            padding: 2px;
-          }
-        `}</style>
+				<style>{`.area {
+					position: absolute;
+					background: #fff;  
+					border: 1px solid #888;
+					border-radius: 3px;
+					font-size: 12px;
+					top: -5px;
+					left: 15px;
+					padding: 2px;
+				  }`}</style>
 			</Head>
 			<div id="map" className={styles.map}></div>
 			{infoWindowData && (
@@ -291,14 +266,13 @@ const KakaoMap: React.FC = () => {
 					map={mapRef.current}
 					position={infoWindowData.position}
 					content={infoWindowData.content}
-					marker={infoWindowData.marker}
+					polygonId={infoWindowData.polygonId}
 					onLoad={() => {}}
 					onClose={() => {
-						if (markerRef.current) {
-							markerRef.current.setMap(null);
-						}
 						setInfoWindowData(null);
 					}}
+					onToggleFavorite={handleToggleFavorite}
+					isFavorite={favoritePolygons.has(infoWindowData.polygonId)}
 				/>
 			)}
 		</>
