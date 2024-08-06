@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react';
-import Head from 'next/head';
+import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
-import styles from './kakaoMap.module.css';
 import InfoWindow from './infoWindow';
+import styles from './kakaoMap.module.css';
+import Head from 'next/head';
 
 declare global {
 	interface Window {
@@ -16,7 +16,17 @@ interface Area {
 	location: string;
 }
 
-const KakaoMap: React.FC = () => {
+interface KakaoMapProps {
+	pageType: string;
+	favoritePolygons: Set<string>;
+	onToggleFavorite: (polygonId: string) => void;
+}
+
+const KakaoMap: React.FC<KakaoMapProps> = ({
+	pageType,
+	favoritePolygons,
+	onToggleFavorite,
+}) => {
 	const mapRef = useRef<any>(null);
 	const [infoWindowData, setInfoWindowData] = useState<{
 		position: any;
@@ -24,10 +34,6 @@ const KakaoMap: React.FC = () => {
 		polygonId: string;
 	} | null>(null);
 	const [selectedPolygon, setSelectedPolygon] = useState<any>(null);
-	const [favoritePolygons, setFavoritePolygons] = useState<Set<string>>(() => {
-		const savedFavorites = localStorage.getItem('favoritePolygons');
-		return savedFavorites ? new Set(JSON.parse(savedFavorites)) : new Set();
-	});
 
 	useEffect(() => {
 		const apiKey = process.env.NEXT_PUBLIC_KAKAO_API_KEY;
@@ -230,35 +236,19 @@ const KakaoMap: React.FC = () => {
 		};
 	}, []);
 
-	const handleToggleFavorite = useCallback((polygonId: string) => {
-		setFavoritePolygons(prevFavorites => {
-			const newFavorites = new Set(prevFavorites);
-			if (newFavorites.has(polygonId)) {
-				newFavorites.delete(polygonId);
-			} else {
-				newFavorites.add(polygonId);
-			}
-			localStorage.setItem(
-				'favoritePolygons',
-				JSON.stringify(Array.from(newFavorites)),
-			);
-			return newFavorites;
-		});
-	}, []);
-
 	return (
 		<>
 			<Head>
 				<style>{`.area {
-					position: absolute;
-					background: #fff;  
-					border: 1px solid #888;
-					border-radius: 3px;
-					font-size: 12px;
-					top: -5px;
-					left: 15px;
-					padding: 2px;
-				  }`}</style>
+          position: absolute;
+          background: #fff;  
+          border: 1px solid #888;
+          border-radius: 3px;
+          font-size: 12px;
+          top: -5px;
+          left: 15px;
+          padding: 2px;
+        }`}</style>
 			</Head>
 			<div id="map" className={styles.map}></div>
 			{infoWindowData && (
@@ -271,7 +261,7 @@ const KakaoMap: React.FC = () => {
 					onClose={() => {
 						setInfoWindowData(null);
 					}}
-					onToggleFavorite={handleToggleFavorite}
+					onToggleFavorite={onToggleFavorite}
 					isFavorite={favoritePolygons.has(infoWindowData.polygonId)}
 				/>
 			)}

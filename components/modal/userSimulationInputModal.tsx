@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useRouter } from 'next/router';
 import styles from './userSimulationInputModal.module.css';
 import UserSimulationInputWarningModal from './userSimulationInputWarningModal';
 
 const UserSimulationInputModal: React.FC<{ onClose: () => void }> = ({
 	onClose,
 }) => {
+	const router = useRouter();
 	const [temperature, setTemperature] = useState('');
 	const [humidity, setHumidity] = useState('');
 	const [a, setA] = useState('');
@@ -38,10 +40,8 @@ const UserSimulationInputModal: React.FC<{ onClose: () => void }> = ({
 			d: d || '기본값',
 		};
 
-		// 콘솔에 데이터를 출력하여 확인
-		console.log('Payload:', payload);
-
-		// 서버로 데이터를 전송한 후 모달을 닫습니다.
+		const query = new URLSearchParams(payload).toString();
+		router.push(`/userSimulation?${query}`);
 		onClose();
 	};
 

@@ -5,6 +5,10 @@ const UserSimulationInputWarningModal: React.FC<{
 	onClose: () => void;
 	onConfirm: () => void;
 }> = ({ onClose, onConfirm }) => {
+	const handleConfirmClick = () => {
+		onConfirm();
+	};
+
 	return (
 		<div className={styles.modal}>
 			<div className={styles.modalContent}>
@@ -18,7 +22,7 @@ const UserSimulationInputWarningModal: React.FC<{
 					기본값으로 설정하고 계속하시겠습니까?
 				</div>
 				<div className={styles.modalFooter}>
-					<button className={styles.modalButton} onClick={onConfirm}>
+					<button className={styles.modalButton} onClick={handleConfirmClick}>
 						예
 					</button>
 					<button className={styles.modalButton} onClick={onClose}>

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import styles from './infoWindow.module.css';
 
 declare global {
@@ -13,11 +13,11 @@ interface InfoWindowProps {
 	map: any;
 	position: any;
 	content: string;
-	polygonId: string; // 폴리곤 ID 추가
+	polygonId: string;
 	onLoad: (dimensions: { width: number; height: number }) => void;
 	onClose: () => void;
-	onToggleFavorite: (polygonId: string) => void; // 즐겨찾기 토글 콜백 추가
-	isFavorite: boolean; // 즐겨찾기 상태 추가
+	onToggleFavorite: (polygonId: string) => void;
+	isFavorite: boolean;
 }
 
 const InfoWindow: React.FC<InfoWindowProps> = ({
@@ -31,7 +31,7 @@ const InfoWindow: React.FC<InfoWindowProps> = ({
 	isFavorite,
 }) => {
 	const infowindowRef = useRef<any>(null);
-	const markerRef = useRef<any>(null); // 마커 레퍼런스 추가
+	const markerRef = useRef<any>(null);
 
 	useEffect(() => {
 		if (infowindowRef.current) {
@@ -51,7 +51,6 @@ const InfoWindow: React.FC<InfoWindowProps> = ({
 			}
 		};
 
-		// 마커 생성
 		const marker = new window.kakao.maps.Marker({
 			position: position,
 		});

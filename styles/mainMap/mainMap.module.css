@@ -1,3 +1,11 @@
+/* mainMap.module.css */
+.map {
+  width: 100%;
+  height: 100%;
+  position: relative; /* Ensure map is positioned correctly */
+  transition: transform 0.3s ease-in-out;
+}
+
 .container {
   position: relative;
   width: 100%;
@@ -22,4 +30,16 @@
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   z-index: 1000; /* Ensure it stays above the map */
+}
+
+.simulationResult {
+  position: absolute;
+  top: 20%;
+  left: 5%;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  z-index: 1001; /* Ensure it stays above the map */
+  max-width: 400px;
 }
