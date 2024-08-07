@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import styles from '@/styles/mainMap/mainMap.module.css';
-import HeaderBar from '@/components/mainMap/headerBar';
+import SimulationHeaderBar from '@/components/simulation/simulationHeaderBar';
 import SideBar from '@/components/mainMap/sideBar';
 
 const KakaoMap = dynamic(() => import('../components/mainMap/kakaoMap'), {
@@ -55,14 +55,14 @@ const UserSimulation: React.FC = () => {
 			console.log('Received params:', { temperature, humidity, a, b, c, d });
 			// 서버에 시뮬레이션 요청 보내기
 		}
-	}, [router.isReady]);
+	}, [router.isReady, router.query]);
 
 	return (
 		<div className={styles.container}>
 			<Head>
 				<title>User Simulation</title>
 			</Head>
-			<HeaderBar
+			<SimulationHeaderBar
 				onToggleSidebar={toggleSidebarVisibility}
 				isSidebarVisible={isSidebarVisible}
 			/>

@@ -1,4 +1,3 @@
-/* components/mainMap/headerBar.module.css */
 .headerBar {
   position: fixed;
   top: 0;
@@ -11,36 +10,36 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  z-index: 1200; /* overlayContainer보다 높은 z-index */
+  z-index: 1200;
 }
 
 .userName {
   font-weight: bold;
   font-size: 16px;
-  margin-right: 15px; /* 변경: divider와의 간격 조정 */
+  margin-right: 15px;
 }
 
 .divider {
   width: 1px;
   height: 40px;
   background-color: #ddd;
-  margin-right: auto; /* 변경: 요소들을 오른쪽 끝으로 밀기 */
+  margin-right: auto;
 }
 
 .sidebarToggle {
   display: flex;
   align-items: center;
   margin-right: 15px;
-  white-space: nowrap; /* 텍스트를 한 줄로 유지 */
+  white-space: nowrap;
 }
 
 .sidebarToggle input {
-  margin-right: 5px; /* 체크박스와 텍스트 사이의 간격 조정 */
+  margin-right: 5px;
 }
 
 .headerButtons {
   display: flex;
-  gap: 10px; /* 버튼 간 간격 */
+  gap: 10px;
 }
 
 .headerButton {
@@ -52,10 +51,9 @@
   cursor: pointer;
   display: flex;
   align-items: center;
-  justify-content: center; /* 아이콘과 텍스트 정렬 */
+  justify-content: center;
   gap: 10px;
-  font-size: 14px; /* 텍스트 크기 일정하게 */
-  white-space: nowrap; /* 텍스트가 한 줄로 유지되도록 */
+  font-size: 14px;
 }
 
 .headerButton:hover {

@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-import styles from './headerBar.module.css';
+import styles from './simulationHeaderBar.module.css'; // 새로운 CSS 파일 사용
 import UserSimulationInputModal from '../modal/userSimulationInputModal';
 import SelectOCRImageModal from '../modal/selectOCRImageModal';
 
-const HeaderBar: React.FC<{
+const SimulationHeaderBar: React.FC<{
 	onToggleSidebar: () => void;
 	isSidebarVisible: boolean;
-	children?: React.ReactNode; // children prop 추가
+	children?: React.ReactNode;
 }> = ({ onToggleSidebar, isSidebarVisible, children }) => {
 	const router = useRouter();
 	const [showSimulationModal, setShowSimulationModal] = useState(false);
@@ -38,6 +38,10 @@ const HeaderBar: React.FC<{
 		setShowOCRModal(false);
 	};
 
+	const handleMainMapClick = () => {
+		router.push('/mainMap');
+	};
+
 	return (
 		<div className={styles.headerBar}>
 			<span className={styles.userName}>User&apos;s Nickname</span>
@@ -51,7 +55,17 @@ const HeaderBar: React.FC<{
 				사이드바 숨기기
 			</label>
 			<div className={styles.headerButtons}>
-				{children} {/* children을 headerButtons 내부에 배치 */}
+				<button className={styles.headerButton} onClick={handleMainMapClick}>
+					<Image
+						src="/images/mainMap/페이지 돌아가기.png"
+						alt="Main Map Icon"
+						className={styles.icon}
+						width={20}
+						height={20}
+					/>
+					Main Map 으로 이동하기
+				</button>
+				{children}
 				<button
 					className={styles.headerButton}
 					onClick={handleUserSettingsClick}
@@ -111,4 +125,4 @@ const HeaderBar: React.FC<{
 	);
 };
 
-export default HeaderBar;
+export default SimulationHeaderBar;
