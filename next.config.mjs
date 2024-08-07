@@ -1,7 +1,11 @@
+import transpileModules from 'next-transpile-modules';
+
+const withTM = transpileModules(['recharts']);
+
 const nextConfig = {
 	reactStrictMode: true,
 	experimental: {
-		esmExternals: true, // ES 모듈 지원을 켭니다.
+		esmExternals: true,
 	},
 	webpack: config => {
 		config.module.rules.push({
@@ -14,4 +18,4 @@ const nextConfig = {
 	},
 };
 
-export default nextConfig;
+export default withTM(nextConfig);
