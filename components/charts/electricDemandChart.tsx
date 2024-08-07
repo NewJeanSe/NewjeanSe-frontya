@@ -16,15 +16,25 @@ interface DataPoint {
   y: number;
 }
 
+const formatTime = (date: Date) => {
+  let hours = date.getHours();
+  const minutes = date.getMinutes();
+  const ampm = hours >= 12 ? "PM" : "AM";
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+  const strMinutes = minutes < 10 ? "0" + minutes : minutes.toString();
+  const strTime = ampm + " " + hours + ":" + strMinutes;
+  return strTime;
+};
+
 const generateInitialXAxisLabels = () => {
   const labels = [];
   const now = new Date();
-  for (let i = 0; i < 36; i++) {
+  labels.push(formatTime(now)); // 현재 시간을 첫 번째 값으로 추가
+  for (let i = 1; i <= 36; i++) {
     // 3시간 = 36 * 5분
-    const label = new Date(
-      now.getTime() + i * 5 * 60 * 1000
-    ).toLocaleTimeString();
-    labels.push(label);
+    const label = new Date(now.getTime() + i * 5 * 60 * 1000);
+    labels.push(formatTime(label));
   }
   return labels;
 };
@@ -40,7 +50,7 @@ const ElectricDemandChart: React.FC = () => {
     try {
       const response = await axios.get("/api/electricRuntimeKoreaDemandData");
       const newPoint: DataPoint = {
-        x: new Date().toLocaleTimeString(),
+        x: formatTime(new Date()),
         y: response.data.power,
       };
       setData((prevData) => [...prevData, newPoint]);
@@ -75,10 +85,12 @@ const ElectricDemandChart: React.FC = () => {
 
         setXAxisLabels((prevLabels) => {
           const newLabels = prevLabels.slice(1);
-          const newLabel = new Date(
-            new Date(prevLabels[prevLabels.length - 1]).getTime() +
-              5 * 60 * 1000
-          ).toLocaleTimeString();
+          const newLabel = formatTime(
+            new Date(
+              new Date(prevLabels[prevLabels.length - 1]).getTime() +
+                5 * 60 * 1000
+            )
+          );
           newLabels.push(newLabel);
           return newLabels;
         });
@@ -91,10 +103,12 @@ const ElectricDemandChart: React.FC = () => {
     };
   }, []);
 
+  const combinedData = data.concat(predictedData).slice(0, 36);
+
   return (
     <ResponsiveContainer width="100%" height={500}>
       <LineChart
-        data={[...data, ...predictedData]}
+        data={combinedData}
         margin={{
           top: 50,
           right: 30,
@@ -103,7 +117,7 @@ const ElectricDemandChart: React.FC = () => {
         }}
       >
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="x" />
+        <XAxis dataKey="x" minTickGap={20} />
         <YAxis />
         <Tooltip />
         <Legend />
