@@ -1,6 +1,8 @@
+// components/mainMap/sideBar.tsx
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import styles from './sideBar.module.css';
 import Image from 'next/image';
+import ElectricDemandChart from '../charts/electricDemandChart';
 
 const SideBar: React.FC = () => {
 	const [isOpen, setIsOpen] = useState(true);
@@ -65,12 +67,18 @@ const SideBar: React.FC = () => {
 			</div>
 			<div className={styles.resizeButton} onMouseDown={handleMouseDown} />
 			<div className={styles.content}>
-				{[...Array(6)].map((_, index) => (
+				<div className={styles.section}>
+					<div className={styles.sectionHeader}>Electric Demand Chart</div>
+					<div className={styles.sectionContent}>
+						<ElectricDemandChart />
+					</div>
+				</div>
+				{[...Array(5)].map((_, index) => (
 					<div key={index} className={styles.section}>
-						<div className={styles.sectionHeader}>Section {index + 1}</div>
+						<div className={styles.sectionHeader}>Section {index + 2}</div>
 						<div className={styles.sectionContent}>
 							<div className={styles.chartPlaceholder}>
-								Chart space for section {index + 1}
+								Chart space for section {index + 2}
 							</div>
 						</div>
 					</div>

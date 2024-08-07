@@ -1,6 +1,7 @@
 {
   "name": "newjeanseforreal",
   "version": "0.1.0",
+  "type": "module",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -10,12 +11,16 @@
   },
   "dependencies": {
     "axios": "^1.7.3",
+    "chart.js": "^4.4.3",
     "formidable": "^3.5.1",
     "next": "14.2.5",
     "react": "^18",
-    "react-dom": "^18"
+    "react-chartjs-2": "^5.2.0",
+    "react-dom": "^18",
+    "recharts": "^2.12.7"
   },
   "devDependencies": {
+    "@types/d3-interpolate": "^3.0.4",
     "@types/formidable": "^3.4.5",
     "@types/node": "^20",
     "@types/react": "^18",
