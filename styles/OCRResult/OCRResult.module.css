@@ -1,0 +1,25 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.resultContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-top: 40px; /* headerBar와의 마진을 충분히 설정 */
+}
+
+.imageContainer {
+  margin-bottom: 20px;
+}
+
+.image {
+  max-width: 90%; /* 뷰포트 너비의 90%로 최대 너비 설정 */
+  max-height: 700px; /* 최대 높이를 700px로 설정 */
+  width: auto; /* 너비를 자동으로 조절 */
+  height: auto; /* 높이를 자동으로 조절 */
+}

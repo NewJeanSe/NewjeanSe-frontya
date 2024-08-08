@@ -13,8 +13,11 @@ export const config = {
 };
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+  const uploadDir = path.join(process.cwd(), "/public/uploads");
+  fs.mkdirSync(uploadDir, { recursive: true }); // 디렉토리 생성, 이미 존재하면 무시
+
   const form = formidable({
-    uploadDir: os.tmpdir(), // 임시 디렉토리 설정
+    uploadDir: uploadDir, // public/uploads 디렉토리 설정
     keepExtensions: true, // 파일 확장자 유지
     maxFileSize: 50 * 1024 * 1024, // 최대 파일 크기 설정 (50MB)
     multiples: false, // 여러 파일 업로드 비활성화
@@ -57,16 +60,15 @@ const sendFileToFlask = async (file: File, res: NextApiResponse) => {
         headers: formData.getHeaders(),
       }
     );
-    res.status(200).json(response.data);
+
+    // Flask 서버로부터 받은 결과에 업로드된 파일의 경로 추가
+    const responseData = response.data;
+    responseData.imagePath = `/uploads/${file.newFilename}`;
+
+    res.status(200).json(responseData);
   } catch (error: any) {
     console.error("Error sending file to Flask server:", error.message);
     res.status(500).json({ message: "OCR 서버에 이미지 업로드 실패" });
-  } finally {
-    fs.unlink(file.filepath, (unlinkError) => {
-      if (unlinkError) {
-        console.error("Error deleting file:", unlinkError);
-      }
-    });
   }
 };
 
