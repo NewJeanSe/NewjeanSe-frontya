@@ -59,10 +59,14 @@
 .sectionHeader {
   font-weight: bold;
   margin-bottom: 10px;
+  font-size: 20px; /* 폰트 크기 설정 */
 }
 
 .sectionContent {
   padding: 10px 0;
+  display: flex;
+  justify-content: center; /* 중앙 정렬 */
+  align-items: center; /* 중앙 정렬 */
 }
 
 .chartPlaceholder {

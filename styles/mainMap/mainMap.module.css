@@ -1,4 +1,4 @@
-/* mainMap.module.css */
+/* styles/mainMap/mainMap.module.css */
 .map {
   width: 100%;
   height: 100%;
@@ -42,4 +42,12 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   z-index: 1001; /* Ensure it stays above the map */
   max-width: 400px;
+}
+
+.chartContainer {
+  width: 100%;
+  height: 500px;
+  margin-top: 20px;
+  position: relative;
+  z-index: 1000; /* Ensure it stays above the map */
 }

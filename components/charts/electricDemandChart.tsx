@@ -23,7 +23,7 @@ const formatTime = (date: Date) => {
   hours = hours % 12;
   hours = hours ? hours : 12; // the hour '0' should be '12'
   const strMinutes = minutes < 10 ? "0" + minutes : minutes.toString();
-  const strTime = ampm + " " + hours + ":" + strMinutes;
+  const strTime = `${hours}:${strMinutes} ${ampm}`; // 템플릿 리터럴 사용
   return strTime;
 };
 
@@ -40,8 +40,8 @@ const generateInitialXAxisLabels = () => {
 };
 
 const ElectricDemandChart: React.FC = () => {
-  const [data, setData] = useState<DataPoint[]>([]);
-  const [predictedData, setPredictedData] = useState<DataPoint[]>([]);
+  const [realTimeData, setRealTimeData] = useState<DataPoint[]>([]);
+  const [predictionData, setPredictionData] = useState<DataPoint[]>([]);
   const [xAxisLabels, setXAxisLabels] = useState<string[]>(
     generateInitialXAxisLabels()
   );
@@ -49,28 +49,31 @@ const ElectricDemandChart: React.FC = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get("/api/electricRuntimeKoreaDemandData");
+      console.log("API 응답 데이터:", response.data);
       const newPoint: DataPoint = {
         x: formatTime(new Date()),
         y: response.data.power,
       };
-      setData((prevData) => [...prevData, newPoint]);
+      console.log("실시간 데이터 포인트:", newPoint);
+      setRealTimeData((prevData) => [...prevData, newPoint]);
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error("데이터 가져오기 오류:", error);
     }
   };
 
   const fetchPredictionData = async () => {
     try {
       const response = await axios.get("/api/electricRuntimeKoreaDemandData");
+      console.log("예측 API 응답 데이터:", response.data);
       const predictionPoints = response.data.map(
         (point: number[], index: number) => ({
-          x: xAxisLabels[index],
-          y: point[1], // Assuming the data structure is [[...], [...], ...]
+          x: xAxisLabels[index + 1], // 첫 번째 라벨은 실시간 데이터가 사용하므로 그 다음부터 시작
+          y: point[1], // Assuming the data structure is [[time, value], [...], ...]
         })
       );
-      setPredictedData(predictionPoints);
+      setPredictionData(predictionPoints);
     } catch (error) {
-      console.error("Error fetching prediction data:", error);
+      console.error("예측 데이터 가져오기 오류:", error);
     }
   };
 
@@ -103,7 +106,9 @@ const ElectricDemandChart: React.FC = () => {
     };
   }, []);
 
-  const combinedData = data.concat(predictedData).slice(0, 36);
+  const combinedData = [...realTimeData, ...predictionData];
+
+  console.log("전체 데이터:", combinedData);
 
   return (
     <ResponsiveContainer width="100%" height={500}>
@@ -126,7 +131,7 @@ const ElectricDemandChart: React.FC = () => {
           dataKey="y"
           stroke="#8884d8"
           activeDot={{ r: 8 }}
-          name="Predicted Data"
+          name="실시간 전국 예측 전력 수요량"
         />
       </LineChart>
     </ResponsiveContainer>
