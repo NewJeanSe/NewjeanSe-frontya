@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { createRoot, Root } from 'react-dom/client';
+import ReactDOM from 'react-dom';
 import styles from './infoWindow.module.css';
 import MonthlyDemandChart from '../charts/monthlyDemandChart';
 
@@ -34,7 +34,6 @@ const InfoWindow: React.FC<InfoWindowProps> = ({
 }) => {
 	const infowindowRef = useRef<any>(null);
 	const containerRef = useRef<HTMLDivElement | null>(null);
-	const rootRef = useRef<Root | null>(null);
 
 	useEffect(() => {
 		if (containerRef.current) {
@@ -47,29 +46,6 @@ const InfoWindow: React.FC<InfoWindowProps> = ({
 
 			const rect = containerRef.current.getBoundingClientRect();
 			onLoad({ width: rect.width, height: rect.height });
-
-			rootRef.current = createRoot(containerRef.current);
-			rootRef.current.render(
-				<div>
-					<div ref={containerRef} className={styles.infoWindowContent}>
-						<span className={styles.close} onClick={onClose}>
-							×
-						</span>
-						<div className={styles.infoWindowTitle}>
-							<span
-								className={`${styles.favorite} ${isFavorite ? styles.favoriteActive : ''}`}
-								onClick={() => onToggleFavorite(polygonId)}
-							>
-								★
-							</span>
-							{content}
-						</div>
-						<div className={styles.chartContainer}>
-							<MonthlyDemandChart polygonId={polygonId} />
-						</div>
-					</div>
-				</div>,
-			);
 		}
 
 		return () => {
@@ -79,18 +55,37 @@ const InfoWindow: React.FC<InfoWindowProps> = ({
 				infowindowRef.current = null;
 			}
 
-			if (rootRef.current) {
-				rootRef.current.unmount();
-				rootRef.current = null;
-			}
-
 			if (containerRef.current && containerRef.current.parentNode) {
+				ReactDOM.unmountComponentAtNode(containerRef.current);
 				containerRef.current.parentNode.removeChild(containerRef.current);
 			}
 		};
 	}, [map, position, onLoad]);
 
-	return <div ref={containerRef} />;
+	return ReactDOM.createPortal(
+		<div>
+			<div ref={containerRef} className={styles.infoWindowContent}>
+				<span className={styles.close} onClick={onClose}>
+					×
+				</span>
+				<div className={styles.infoWindowTitle}>
+					<span
+						className={`${styles.favorite} ${
+							isFavorite ? styles.favoriteActive : ''
+						}`}
+						onClick={() => onToggleFavorite(polygonId)}
+					>
+						★
+					</span>
+					{content}
+				</div>
+				<div className={styles.chartContainer}>
+					<MonthlyDemandChart polygonId={polygonId} />
+				</div>
+			</div>
+		</div>,
+		document.body,
+	);
 };
 
 export default InfoWindow;
