@@ -13,6 +13,7 @@
     "axios": "^1.7.3",
     "chart.js": "^4.4.3",
     "formidable": "^3.5.1",
+    "mongoose": "^8.5.2",
     "next": "14.2.5",
     "next-transpile-modules": "^10.0.1",
     "react": "^18",
