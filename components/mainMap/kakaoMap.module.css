@@ -3,5 +3,5 @@
   width: 100%;
   height: 100%;
   position: relative; /* Ensure map is positioned correctly */
-  transition: transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out; 
 }
