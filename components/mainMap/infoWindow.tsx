@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from "react";
 import ReactDOM from "react-dom";
-
 import styles from "./infoWindow.module.css";
 import MonthlyDemandChart from "../charts/monthlyDemandChart";
 
@@ -34,89 +33,59 @@ const InfoWindow: React.FC<InfoWindowProps> = ({
   isFavorite,
 }) => {
   const infowindowRef = useRef<any>(null);
-  const markerRef = useRef<any>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if (infowindowRef.current) {
-      infowindowRef.current.close();
-    }
+    if (containerRef.current) {
+      const infowindow = new window.kakao.maps.InfoWindow({
+        position,
+        content: containerRef.current,
+      });
+      infowindow.open(map);
+      infowindowRef.current = infowindow;
 
-    window.infoWindowClose = () => {
-      if (infowindowRef.current) {
-        infowindowRef.current.close();
-      }
-      onClose();
-    };
-
-    window.toggleFavorite = (id: string) => {
-      if (id === polygonId) {
-        onToggleFavorite(id);
-      }
-    };
-
-    const marker = new window.kakao.maps.Marker({
-      position: position,
-    });
-    marker.setMap(map);
-    markerRef.current = marker;
-
-    const infowindow = new window.kakao.maps.InfoWindow({
-      content: `
-                <div class="${styles.infoWindowContent}">
-                    <span class="${styles.close}" onclick="window.infoWindowClose()">×</span>
-                    <div class="${styles.infoWindowTitle}">
-                        <span class="${styles.favorite} ${
-                          isFavorite ? styles.favoriteActive : ""
-                        }" onclick="window.toggleFavorite('${polygonId}')">★</span>
-                        ${content}
-                    </div>
-                    <div class="${styles.chartContainer}" id="chart-${polygonId}">
-                    </div>
-                </div>
-            `,
-    });
-
-    infowindow.open(map, marker);
-    infowindowRef.current = infowindow;
-
-    const infoWindowElement = document.querySelector(
-      `.${styles.infoWindowContent}`
-    );
-    if (infoWindowElement) {
-      const rect = infoWindowElement.getBoundingClientRect();
+      const rect = containerRef.current.getBoundingClientRect();
       onLoad({ width: rect.width, height: rect.height });
     }
 
     return () => {
       if (infowindowRef.current) {
         infowindowRef.current.close();
+        infowindowRef.current.setMap(null);
+        infowindowRef.current = null;
       }
-      if (markerRef.current) {
-        markerRef.current.setMap(null);
+
+      if (containerRef.current && containerRef.current.parentNode) {
+        ReactDOM.unmountComponentAtNode(containerRef.current);
+        containerRef.current.parentNode.removeChild(containerRef.current);
       }
     };
-  }, [
-    map,
-    position,
-    content,
-    onLoad,
-    onClose,
-    isFavorite,
-    polygonId,
-    onToggleFavorite,
-  ]);
+  }, [map, position, onLoad]);
 
-  useEffect(() => {
-    const chartContainer = document.getElementById(`chart-${polygonId}`);
-    if (chartContainer) {
-      ReactDOM.render(
-        <MonthlyDemandChart polygonId={polygonId} />,
-        chartContainer
-      );
-    }
-  }, [polygonId]);
-
-  return null;
+  return ReactDOM.createPortal(
+    <div>
+      <div ref={containerRef} className={styles.infoWindowContent}>
+        <span className={styles.close} onClick={onClose}>
+          ×
+        </span>
+        <div className={styles.infoWindowTitle}>
+          <span
+            className={`${styles.favorite} ${
+              isFavorite ? styles.favoriteActive : ""
+            }`}
+            onClick={() => onToggleFavorite(polygonId)}
+          >
+            ★
+          </span>
+          {content}
+        </div>
+        <div className={styles.chartContainer}>
+          <MonthlyDemandChart polygonId={polygonId} />
+        </div>
+      </div>
+    </div>,
+    document.body
+  );
 };
 
 export default InfoWindow;
