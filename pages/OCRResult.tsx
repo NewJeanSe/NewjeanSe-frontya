@@ -10,7 +10,7 @@ const OCRResult: React.FC = () => {
   let resultData;
   if (result) {
     try {
-      resultData = JSON.parse(result as string); // JSON 문자열을 객체로 변환
+      resultData = JSON.parse(result as string);
     } catch (e) {
       console.error("Failed to parse result JSON", e);
       resultData = null;
@@ -37,9 +37,22 @@ const OCRResult: React.FC = () => {
               />
             </div>
           )}
-          <p>납기일 : {dueDate}</p>
-          <p>청구 금액 : {amountDue}</p>
-          <p>사용 전력량 : {powerUsage}</p>
+          <div className={styles.divider} />{" "}
+          {/* 이미지와 텍스트 사이의 구분선 */}
+          <div className={styles.detailsContainer}>
+            <div className={styles.detailRow}>
+              <span className={styles.detailLabel}>납기일 :</span>
+              <span className={styles.detailValue}>{dueDate}</span>
+            </div>
+            <div className={styles.detailRow}>
+              <span className={styles.detailLabel}>청구 금액 :</span>
+              <span className={styles.detailValue}>{amountDue} 원</span>
+            </div>
+            <div className={styles.detailRow}>
+              <span className={styles.detailLabel}>사용 전력량 :</span>
+              <span className={styles.detailValue}>{powerUsage} kW/h</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>

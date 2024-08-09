@@ -1,8 +1,14 @@
+@font-face {
+  font-family: 'GmarketSansMedium';
+  src: url('/fonts/GMARKETSANSMEDIUM.OTF') format('opentype');
+}
+
 .content {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
+  font-family: 'GmarketSansMedium', sans-serif;
 }
 
 .resultContainer {
@@ -10,16 +16,62 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  margin-top: 40px; /* headerBar와의 마진을 충분히 설정 */
+  margin-top: 60px;
+  font-size: 20px;
+  background-color: #ffffff; /* 하얀색 배경 추가 */
+  padding: 20px; /* 배경과 내용 사이의 여백 */
+  border-radius: 8px; /* 모서리를 둥글게 */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* 약간의 그림자 효과 */
 }
 
 .imageContainer {
   margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
 
 .image {
-  max-width: 90%; /* 뷰포트 너비의 90%로 최대 너비 설정 */
-  max-height: 700px; /* 최대 높이를 700px로 설정 */
-  width: auto; /* 너비를 자동으로 조절 */
-  height: auto; /* 높이를 자동으로 조절 */
+  max-width: 90%;
+  max-height: 80vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  background-color: #ffffff; /* 이미지 뒤의 하얀 배경 */
+  padding: 10px; /* 배경과 이미지 사이의 여백 */
+  border-radius: 8px; /* 모서리를 둥글게 */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* 약간의 그림자 효과 */
+}
+
+.divider {
+  width: 100%;
+  height: 2px;
+  background-color: #ddd; /* 구분선 색상 */
+  margin: 20px 0; /* 구분선 위아래 여백 */
+}
+
+.detailsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 500px;
+  margin-top: 20px;
+}
+
+.detailRow {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.detailLabel {
+  text-align: left;
+  flex: 1;
+}
+
+.detailValue {
+  text-align: right;
+  flex: 1;
 }
