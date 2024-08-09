@@ -15,6 +15,7 @@ const MainMap: React.FC = () => {
     new Set()
   );
 
+  // LocalStorage에서 즐겨찾기 상태 불러오기
   useEffect(() => {
     const savedFavorites = localStorage.getItem("favoritePolygons_mainMap");
     if (savedFavorites) {
@@ -22,6 +23,7 @@ const MainMap: React.FC = () => {
     }
   }, []);
 
+  // 즐겨찾기 상태를 LocalStorage에 저장
   useEffect(() => {
     localStorage.setItem(
       "favoritePolygons_mainMap",
