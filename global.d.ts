@@ -1,9 +1,9 @@
 // global.d.ts
 declare global {
-	interface Window {
-		kakao: any;
-		infoWindowClose: () => void;
-	}
+  interface Window {
+    kakao: any;
+    infoWindowClose: () => void;
+  }
 }
 
 export {};
