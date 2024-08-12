@@ -5,6 +5,7 @@ import Head from 'next/head';
 import styles from '@/styles/mainMap/mainMap.module.css';
 import SimulationHeaderBar from '@/components/simulation/simulationHeaderBar';
 import SideBar from '@/components/mainMap/sideBar';
+import { getFavorites } from '@/lib/api';
 
 const KakaoMap = dynamic(() => import('../components/mainMap/kakaoMap'), {
 	ssr: false,
@@ -17,23 +18,17 @@ const UserSimulation: React.FC = () => {
 		new Set(),
 	);
 
-	// LocalStorage에서 즐겨찾기 상태 불러오기
 	useEffect(() => {
-		const savedFavorites = localStorage.getItem(
-			'favoritePolygons_userSimulation',
-		);
-		if (savedFavorites) {
-			setFavoritePolygons(new Set(JSON.parse(savedFavorites)));
-		}
+		const loadFavorites = async () => {
+			try {
+				const favorites = await getFavorites('userSimulation');
+				setFavoritePolygons(new Set(favorites.map((f: any) => f.polygonId)));
+			} catch (error) {
+				console.error('Failed to load favorites:', error);
+			}
+		};
+		loadFavorites();
 	}, []);
-
-	// 즐겨찾기 상태를 LocalStorage에 저장
-	useEffect(() => {
-		localStorage.setItem(
-			'favoritePolygons_userSimulation',
-			JSON.stringify(Array.from(favoritePolygons)),
-		);
-	}, [favoritePolygons]);
 
 	const toggleSidebarVisibility = () => {
 		setIsSidebarVisible(prevState => !prevState);

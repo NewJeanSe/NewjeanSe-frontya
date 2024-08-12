@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import HeaderBar from '../components/mainMap/headerBar';
 import styles from '../styles/OCRResult/OCRResult.module.css';
+import OCRHeaderBar from '@/components/OCR/OCRHeaderBar';
 
 const OCRResult: React.FC = () => {
 	const router = useRouter();
@@ -24,7 +24,7 @@ const OCRResult: React.FC = () => {
 
 	return (
 		<div>
-			<HeaderBar showSidebarToggle={false} />
+			<OCRHeaderBar showSidebarToggle={false} />
 			<div className={styles.content}>
 				<h2>OCR 결과창</h2>
 				<div className={styles.resultContainer}>

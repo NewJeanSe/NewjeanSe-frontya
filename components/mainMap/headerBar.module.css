@@ -66,3 +66,22 @@
   width: 20px;
   height: 20px;
 }
+
+.starButton {
+  display: flex;
+  align-items: center;
+  background: transparent; /* 투명 배경 */
+  border: none;
+  cursor: pointer;
+  color: #007bff;
+  gap: 5px; /* 아이콘과 텍스트 간 간격 */
+}
+
+.starButton:hover .starIcon {
+  color: #0056b3;
+}
+
+.starIcon {
+  width: 20px;
+  height: 20px;
+}

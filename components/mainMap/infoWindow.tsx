@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
+import { addFavorite, removeFavorite } from '@/lib/api';
 import styles from './infoWindow.module.css';
 import MonthlyDemandChart from '../charts/monthlyDemandChart';
 
@@ -16,6 +17,7 @@ interface InfoWindowProps {
 	position: any;
 	content: string;
 	polygonId: string;
+	pageType: string;
 	onLoad: (dimensions: { width: number; height: number }) => void;
 	onClose: () => void;
 	onToggleFavorite: (polygonId: string) => void;
@@ -27,6 +29,7 @@ const InfoWindow: React.FC<InfoWindowProps> = ({
 	position,
 	content,
 	polygonId,
+	pageType,
 	onLoad,
 	onClose,
 	onToggleFavorite,
@@ -62,6 +65,23 @@ const InfoWindow: React.FC<InfoWindowProps> = ({
 		};
 	}, [map, position, onLoad]);
 
+	const handleToggleFavorite = async (polygonId: string) => {
+		try {
+			if (isFavorite) {
+				// '즐겨찾기'에서 제거
+				await removeFavorite(pageType, polygonId);
+				console.log(`Polygon ${polygonId} removed from favorites.`);
+			} else {
+				// '즐겨찾기'에 추가
+				await addFavorite(pageType, polygonId);
+				console.log(`Polygon ${polygonId} added to favorites.`);
+			}
+			onToggleFavorite(polygonId); // 상태 갱신
+		} catch (error) {
+			console.error('Error toggling favorite:', error);
+		}
+	};
+
 	return ReactDOM.createPortal(
 		<div>
 			<div ref={containerRef} className={styles.infoWindowContent}>
@@ -73,7 +93,7 @@ const InfoWindow: React.FC<InfoWindowProps> = ({
 						className={`${styles.favorite} ${
 							isFavorite ? styles.favoriteActive : ''
 						}`}
-						onClick={() => onToggleFavorite(polygonId)}
+						onClick={() => handleToggleFavorite(polygonId)}
 					>
 						★
 					</span>

@@ -1,0 +1,8 @@
+/* UserDataBaseMain.module.css */
+.container {
+    padding-top: 60px; /* 헤더 높이만큼 패딩 추가 */
+}
+
+.content {
+    padding: 20px;
+}

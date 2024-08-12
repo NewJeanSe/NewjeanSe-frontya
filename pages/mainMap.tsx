@@ -4,6 +4,7 @@ import Head from 'next/head';
 import styles from '@/styles/mainMap/mainMap.module.css';
 import HeaderBar from '@/components/mainMap/headerBar';
 import SideBar from '@/components/mainMap/sideBar';
+import { getFavorites, addFavorite, removeFavorite } from '@/lib/api';
 
 const KakaoMap = dynamic(() => import('../components/mainMap/kakaoMap'), {
 	ssr: false,
@@ -15,36 +16,38 @@ const MainMap: React.FC = () => {
 		new Set(),
 	);
 
-	// LocalStorage에서 즐겨찾기 상태 불러오기
 	useEffect(() => {
-		const savedFavorites = localStorage.getItem('favoritePolygons_mainMap');
-		if (savedFavorites) {
-			setFavoritePolygons(new Set(JSON.parse(savedFavorites)));
-		}
+		const loadFavorites = async () => {
+			try {
+				const favorites = await getFavorites('mainMap');
+				setFavoritePolygons(new Set(favorites.map((f: any) => f.polygonId)));
+			} catch (error) {
+				console.error('Failed to load favorites:', error);
+			}
+		};
+		loadFavorites();
 	}, []);
-
-	// 즐겨찾기 상태를 LocalStorage에 저장
-	useEffect(() => {
-		localStorage.setItem(
-			'favoritePolygons_mainMap',
-			JSON.stringify(Array.from(favoritePolygons)),
-		);
-	}, [favoritePolygons]);
 
 	const toggleSidebarVisibility = () => {
 		setIsSidebarVisible(prevState => !prevState);
 	};
 
-	const handleToggleFavorite = (polygonId: string) => {
-		setFavoritePolygons(prevFavorites => {
-			const updatedFavorites = new Set(prevFavorites);
-			if (updatedFavorites.has(polygonId)) {
+	const handleToggleFavorite = async (polygonId: string) => {
+		try {
+			let updatedFavorites;
+			if (favoritePolygons.has(polygonId)) {
+				await removeFavorite('mainMap', polygonId);
+				updatedFavorites = new Set(favoritePolygons);
 				updatedFavorites.delete(polygonId);
 			} else {
+				await addFavorite('mainMap', polygonId);
+				updatedFavorites = new Set(favoritePolygons);
 				updatedFavorites.add(polygonId);
 			}
-			return updatedFavorites;
-		});
+			setFavoritePolygons(updatedFavorites);
+		} catch (error) {
+			console.error('Failed to toggle favorite:', error);
+		}
 	};
 
 	return (

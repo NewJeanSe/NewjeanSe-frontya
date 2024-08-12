@@ -238,16 +238,18 @@ const KakaoMap: React.FC<KakaoMapProps> = ({
 	return (
 		<>
 			<Head>
-				<style>{`.area {
-          position: absolute;
-          background: #fff;  
-          border: 1px solid #888;
-          border-radius: 3px;
-          font-size: 12px;
-          top: -5px;
-          left: 15px;
-          padding: 2px;
-        }`}</style>
+				<style>{`
+					.area {
+						position: absolute;
+						background: #fff;  
+						border: 1px solid #888;
+						border-radius: 3px;
+						font-size: 12px;
+						top: -5px;
+						left: 15px;
+						padding: 2px;
+					}
+				`}</style>
 			</Head>
 			<div id="map" className={styles.map}></div>
 			{infoWindowData && (
