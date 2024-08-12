@@ -1,8 +1,114 @@
-/* UserDataBaseMain.module.css */
 .container {
     padding-top: 60px; /* 헤더 높이만큼 패딩 추가 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .content {
     padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.listContainer {
+    width: 48%; /* 두 개의 리스트를 좌우로 배치하기 위해 각각 48%의 너비 */
+    background-color: #f5f7fa; /* 배경색 */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.listTitleContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.listTitle {
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: auto; /* 버튼과 제목 사이에 간격을 주기 위해 사용 */
+}
+
+.buttonContainer {
+    display: flex;
+    gap: 10px;
+}
+
+.iconButton {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    color: #007bff;
+    padding: 5px;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.iconButton img {
+    margin-right: 5px; /* 아이콘과 텍스트 사이의 간격 */
+}
+
+.iconButton:hover {
+    color: #000000;
+    transform: scale(1.05); /* 버튼 클릭 애니메이션 효과 */
+}
+
+.iconButton:active {
+    transform: scale(0.95); /* 클릭 시 눌리는 애니메이션 효과 */
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th,
+.table td {
+    padding: 10px;
+    text-align: center; /* 텍스트 중앙 정렬 */
+}
+
+.table th {
+    background-color: #e0e4e9;
+    cursor: pointer; /* 클릭 가능한 스타일로 변경 */
+}
+
+.table th:hover {
+    background-color: #d5d8dc; /* 헤더 호버 시 배경색 변경 */
+}
+
+.table td {
+    background-color: #f9fbfd;
+}
+
+.table tr:not(:last-child) td {
+    border-bottom: 1px solid #d3d6da;
+}
+
+.table th:nth-child(2),
+.table td:nth-child(2) {
+    width: 50%; /* 시/군/구 이름이 전체 길이의 절반을 차지 */
+    text-align: left; /* 시/군/구 이름 왼쪽 정렬 */
+    cursor: pointer; /* 마우스 커서가 손가락 모양으로 변경 */
+    transition: color 0.2s ease, text-decoration 0.2s ease;
+}
+
+.table td:nth-child(2):hover {
+    color: #007bff; /* 마우스 오버 시 텍스트 색상 변경 */
+    text-decoration: underline; /* 밑줄 추가 */
+}
+
+.table th:nth-child(3),
+.table th:nth-child(4),
+.table td:nth-child(3),
+.table td:nth-child(4) {
+    width: 25%; /* 생성일자와 업데이트 일자가 나머지 절반을 나눠서 차지 */
+    text-align: center; /* 생성일자와 업데이트 일자 중앙 정렬 */
 }

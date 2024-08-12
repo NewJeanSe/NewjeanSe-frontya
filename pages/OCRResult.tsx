@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import styles from '../styles/OCRResult/OCRResult.module.css';
-import OCRHeaderBar from '@/components/OCR/OCRHeaderBar';
+import HeaderBar from '@/components/mainMap/headerBar';
 
 const OCRResult: React.FC = () => {
 	const router = useRouter();
@@ -18,27 +18,30 @@ const OCRResult: React.FC = () => {
 	}
 
 	const imageUrl = resultData ? resultData.imagePath : '';
-	const dueDate = resultData ? 1 : 0;
-	const amountDue = resultData ? 1 : 0;
-	const powerUsage = resultData ? 1 : 0;
+	const imageName = resultData ? resultData.imageName : 'Unknown Image';
+	const dueDate = resultData ? resultData.dueDate : 'Unknown';
+	const amountDue = resultData ? resultData.amountDue : 0;
+	const powerUsage = resultData ? resultData.powerUsage : 0;
 
 	return (
 		<div>
-			<OCRHeaderBar showSidebarToggle={false} />
+			<HeaderBar showSidebarToggle={false} />
 			<div className={styles.content}>
 				<h2>OCR 결과창</h2>
 				<div className={styles.resultContainer}>
 					{imageUrl && (
 						<div className={styles.imageContainer}>
-							<img
-								src={imageUrl}
-								alt="Uploaded file"
-								className={styles.image}
-							/>
+							<div className={styles.imageWrapper}>
+								<div className={styles.imageName}>{imageName}</div>
+								<img
+									src={imageUrl}
+									alt="Uploaded file"
+									className={styles.image}
+								/>
+							</div>
 						</div>
 					)}
-					<div className={styles.divider} />{' '}
-					{/* 이미지와 텍스트 사이의 구분선 */}
+					<div className={styles.divider} />
 					<div className={styles.detailsContainer}>
 						<div className={styles.detailRow}>
 							<span className={styles.detailLabel}>납기일 :</span>
