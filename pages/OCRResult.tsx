@@ -5,7 +5,6 @@ import HeaderBar from '@/components/mainMap/headerBar';
 import Image from 'next/image';
 import { v4 as uuidv4 } from 'uuid'; // UUID 생성기
 
-// OCR 결과 데이터의 타입 정의
 interface OCRResultData {
 	imagePath: string;
 	imageName: string;
@@ -36,7 +35,6 @@ const OCRResult: React.FC = () => {
 	const amountDue = resultData ? resultData.amountDue : 1;
 	const powerUsage = resultData ? resultData.powerUsage : 1;
 
-	// OCR 데이터를 서버로 전송하여 데이터베이스에 추가
 	useEffect(() => {
 		if (resultData && !hasRunRef.current) {
 			hasRunRef.current = true;
@@ -47,9 +45,10 @@ const OCRResult: React.FC = () => {
 						'Content-Type': 'application/json',
 					},
 					body: JSON.stringify({
-						id: uuidv4(), // 고유 ID 추가
+						id: uuidv4(),
 						name: imageName,
 						type: 'bill',
+						imagePath: imageUrl, // 이미지 경로 추가
 						dueDate,
 						amountDue,
 						powerUsage,
@@ -66,7 +65,7 @@ const OCRResult: React.FC = () => {
 
 			addBillData();
 		}
-	}, [resultData, imageName, dueDate, amountDue, powerUsage]);
+	}, [resultData, imageName, dueDate, amountDue, powerUsage, imageUrl]);
 
 	return (
 		<div>

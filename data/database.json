@@ -17,17 +17,8 @@
       "dueDate": 1,
       "amountDue": 1,
       "powerUsage": 1,
-      "type": "bill"
-    },
-    {
-      "id": "unique-id-5",
-      "name": "a.png",
-      "createdDate": "2024-08-13",
-      "updatedDate": "2024-08-13",
-      "dueDate": 1,
-      "amountDue": 1,
-      "powerUsage": 1,
-      "type": "bill"
+      "type": "bill",
+      "imagePath": "/uploads/전기고지서 예시 이미지.png"
     }
   ]
 }

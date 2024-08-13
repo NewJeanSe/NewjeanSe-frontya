@@ -10,7 +10,10 @@ interface DatabaseItem {
 	name: string;
 	createdDate: string;
 	updatedDate: string;
-	type: 'district' | 'bill'; // 'type' 속성 추가
+	type: 'district' | 'bill';
+	dueDate?: string;
+	amountDue?: number;
+	powerUsage?: number;
 }
 
 const UserDataBaseMain: React.FC = () => {
@@ -32,7 +35,6 @@ const UserDataBaseMain: React.FC = () => {
 			const response = await fetch('/api/database');
 			const data = await response.json();
 
-			// 각 항목에 타입 정보 추가
 			const districtsWithType = data.districts.map((item: any) => ({
 				...item,
 				type: 'district',
@@ -40,6 +42,9 @@ const UserDataBaseMain: React.FC = () => {
 			const billsWithType = data.bills.map((item: any) => ({
 				...item,
 				type: 'bill',
+				dueDate: item.dueDate,
+				amountDue: item.amountDue,
+				powerUsage: item.powerUsage,
 			}));
 
 			setDistrictDatabase(districtsWithType);
@@ -49,12 +54,19 @@ const UserDataBaseMain: React.FC = () => {
 		fetchDatabase();
 	}, []);
 
-	useEffect(() => {
-		console.log(
-			'Selected Database Type has been updated:',
-			selectedDatabaseType,
+	const calculateTotals = () => {
+		const totalAmountDue = electricityBillDatabase.reduce(
+			(acc, item) => acc + (item.amountDue || 0),
+			0,
 		);
-	}, [selectedDatabaseType]);
+		const totalPowerUsage = electricityBillDatabase.reduce(
+			(acc, item) => acc + (item.powerUsage || 0),
+			0,
+		);
+		return { totalAmountDue, totalPowerUsage };
+	};
+
+	const { totalAmountDue, totalPowerUsage } = calculateTotals();
 
 	const toggleSelectAll = (
 		list: string[],
@@ -82,8 +94,8 @@ const UserDataBaseMain: React.FC = () => {
 
 	const sortDatabase = (database: DatabaseItem[], key: keyof DatabaseItem) => {
 		const sortedDatabase = [...database].sort((a, b) => {
-			const dateA = new Date(a[key]).getTime();
-			const dateB = new Date(b[key]).getTime();
+			const dateA = new Date(a[key] as string).getTime();
+			const dateB = new Date(b[key] as string).getTime();
 
 			return sortOrder === 'asc' ? dateA - dateB : dateB - dateA;
 		});
@@ -125,7 +137,6 @@ const UserDataBaseMain: React.FC = () => {
 	};
 
 	const handleDoubleClick = (id: string) => {
-		// ID로 항목을 찾아 타입을 확인
 		const district = districtDatabase.find(item => item.id === id);
 		const bill = electricityBillDatabase.find(item => item.id === id);
 
@@ -157,7 +168,7 @@ const UserDataBaseMain: React.FC = () => {
 			name,
 			createdDate: new Date().toISOString().split('T')[0],
 			updatedDate: new Date().toISOString().split('T')[0],
-			type: type, // 여기서 type을 명시합니다.
+			type: type,
 		};
 
 		const response = await fetch('/api/database', {
@@ -182,11 +193,6 @@ const UserDataBaseMain: React.FC = () => {
 	const handleDeleteSelected = async () => {
 		const selectedItems =
 			selectedDatabaseType === 'district' ? checkedDistricts : checkedBills;
-		const selectedNames = selectedItems.map(id =>
-			selectedDatabaseType === 'district'
-				? districtDatabase.find(item => item.id === id)?.name
-				: electricityBillDatabase.find(item => item.id === id)?.name,
-		);
 
 		if (selectedItems.length > 0) {
 			const response = await fetch('/api/database', {
@@ -279,7 +285,7 @@ const UserDataBaseMain: React.FC = () => {
 							</button>
 						</div>
 					</div>
-					<table className={styles.table}>
+					<table className={`${styles.districtTable}`}>
 						<thead>
 							<tr>
 								<th>
@@ -330,10 +336,7 @@ const UserDataBaseMain: React.FC = () => {
 											}
 										/>
 									</td>
-									<td
-										onDoubleClick={() => handleDoubleClick(district.id)}
-										style={{ cursor: 'pointer' }}
-									>
+									<td onDoubleClick={() => handleDoubleClick(district.id)}>
 										{district.name}
 									</td>
 									<td>{district.createdDate}</td>
@@ -375,7 +378,7 @@ const UserDataBaseMain: React.FC = () => {
 							</button>
 						</div>
 					</div>
-					<table className={styles.table}>
+					<table className={`${styles.billTable}`}>
 						<thead>
 							<tr>
 								<th>
@@ -394,24 +397,11 @@ const UserDataBaseMain: React.FC = () => {
 									/>
 								</th>
 								<th>전기 요금 고지서 목록</th>
-								<th
-									onClick={() =>
-										setElectricityBillDatabase(
-											sortDatabase(electricityBillDatabase, 'createdDate'),
-										)
-									}
-								>
-									생성일자
-								</th>
-								<th
-									onClick={() =>
-										setElectricityBillDatabase(
-											sortDatabase(electricityBillDatabase, 'updatedDate'),
-										)
-									}
-								>
-									업데이트 일자
-								</th>
+								<th>청구 금액</th>
+								<th>사용 전력량</th>
+								<th>납기일</th>
+								<th>생성일자</th>
+								<th>업데이트 일자</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -424,17 +414,28 @@ const UserDataBaseMain: React.FC = () => {
 											onChange={e => checkHandler(e, bill.id, setCheckedBills)}
 										/>
 									</td>
-									<td
-										onDoubleClick={() => handleDoubleClick(bill.id)}
-										style={{ cursor: 'pointer' }}
-									>
+									<td onDoubleClick={() => handleDoubleClick(bill.id)}>
 										{bill.name}
-									</td>
+									</td>{' '}
+									{/* 더블 클릭 이벤트 추가 */}
+									<td>{bill.amountDue} 원</td>
+									<td>{bill.powerUsage} kW/H</td>
+									<td>{bill.dueDate}</td>
 									<td>{bill.createdDate}</td>
 									<td>{bill.updatedDate}</td>
 								</tr>
 							))}
 						</tbody>
+						<tfoot>
+							<tr>
+								<th></th> {/* 빈 공간을 위한 열 */}
+								<th>총합</th>
+								<th>{totalAmountDue} 원</th>
+								<th>{totalPowerUsage} kW/H</th>
+								<th colSpan={3}></th>{' '}
+								{/* 남은 공간을 채우기 위해 colspan 사용 */}
+							</tr>
+						</tfoot>
 					</table>
 				</div>
 			</div>

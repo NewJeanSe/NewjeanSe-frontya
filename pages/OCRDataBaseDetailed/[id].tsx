@@ -1,14 +1,16 @@
 import { GetServerSideProps } from 'next';
-import { useRouter } from 'next/router';
 import path from 'path';
 import fs from 'fs';
 import React from 'react';
+import Image from 'next/image';
+import styles from '@/styles/OCRResult/OCRResult.module.css';
+import HeaderBar from '@/components/mainMap/headerBar';
 
 interface BillDetailProps {
 	bill: {
+		id: string;
 		name: string;
-		createdDate: string;
-		updatedDate: string;
+		imagePath: string;
 		dueDate: string;
 		amountDue: number;
 		powerUsage: number;
@@ -22,12 +24,41 @@ const BillDetail: React.FC<BillDetailProps> = ({ bill }) => {
 
 	return (
 		<div>
-			<h1>{bill.name}의 상세 정보</h1>
-			<p>생성일자: {bill.createdDate}</p>
-			<p>업데이트 일자: {bill.updatedDate}</p>
-			<p>납기일: {bill.dueDate}</p>
-			<p>청구 금액: {bill.amountDue} 원</p>
-			<p>사용 전력량: {bill.powerUsage} kW/h</p>
+			<HeaderBar showSidebarToggle={false} />
+			<div className={styles.content}>
+				<h2>{bill.name}의 상세 페이지</h2>
+				<div className={styles.resultContainer}>
+					{bill.imagePath && (
+						<div className={styles.imageContainer}>
+							<div className={styles.imageWrapper}>
+								<div className={styles.imageName}>{bill.name}</div>
+								<Image
+									src={bill.imagePath}
+									alt={bill.name}
+									className={styles.image}
+									width={500}
+									height={500}
+								/>
+							</div>
+						</div>
+					)}
+					<div className={styles.divider} />
+					<div className={styles.detailsContainer}>
+						<div className={styles.detailRow}>
+							<span className={styles.detailLabel}>납기일 :</span>
+							<span className={styles.detailValue}>{bill.dueDate}</span>
+						</div>
+						<div className={styles.detailRow}>
+							<span className={styles.detailLabel}>청구 금액 :</span>
+							<span className={styles.detailValue}>{bill.amountDue} 원</span>
+						</div>
+						<div className={styles.detailRow}>
+							<span className={styles.detailLabel}>사용 전력량 :</span>
+							<span className={styles.detailValue}>{bill.powerUsage} kW/h</span>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	);
 };

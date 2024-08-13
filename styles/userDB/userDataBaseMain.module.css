@@ -2,22 +2,26 @@
     padding-top: 60px; /* 헤더 높이만큼 패딩 추가 */
     display: flex;
     flex-direction: column;
+    padding: 20px;
     align-items: center;
 }
 
 .content {
     padding: 20px;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    align-items: stretch; /* Flexbox children will stretch to fill the width */
     width: 100%;
+    margin-top: 40px; /* HeaderBar와의 간격을 조절할 수 있는 속성 */
 }
 
 .listContainer {
-    width: 48%; /* 두 개의 리스트를 좌우로 배치하기 위해 각각 48%의 너비 */
+    width: 100%; /* 리스트 컨테이너가 화면의 전체 너비를 차지 */
     background-color: #f5f7fa; /* 배경색 */
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 20px;
+    margin-bottom: 20px; /* 각 리스트 사이의 간격 추가 */
 }
 
 .listTitleContainer {
@@ -64,51 +68,134 @@
     transform: scale(0.95); /* 클릭 시 눌리는 애니메이션 효과 */
 }
 
-.table {
+/* 시/군/구 데이터베이스 테이블 스타일 */
+.districtTable {
     width: 100%;
     border-collapse: collapse;
+    margin-top: 10px;
 }
 
-.table th,
-.table td {
+.districtTable th,
+.districtTable td {
     padding: 10px;
-    text-align: center; /* 텍스트 중앙 정렬 */
+    text-align: center;
+    white-space: nowrap;
 }
 
-.table th {
+.districtTable th {
     background-color: #e0e4e9;
-    cursor: pointer; /* 클릭 가능한 스타일로 변경 */
+    cursor: pointer;
 }
 
-.table th:hover {
-    background-color: #d5d8dc; /* 헤더 호버 시 배경색 변경 */
+.districtTable th:hover {
+    background-color: #d5d8dc;
 }
 
-.table td {
+.districtTable td {
     background-color: #f9fbfd;
 }
 
-.table tr:not(:last-child) td {
+.districtTable tr:not(:last-child) td {
     border-bottom: 1px solid #d3d6da;
 }
 
-.table th:nth-child(2),
-.table td:nth-child(2) {
-    width: 50%; /* 시/군/구 이름이 전체 길이의 절반을 차지 */
-    text-align: left; /* 시/군/구 이름 왼쪽 정렬 */
-    cursor: pointer; /* 마우스 커서가 손가락 모양으로 변경 */
+/* 시/군/구 테이블 이름 열 */
+.districtTable th:nth-child(2),
+.districtTable td:nth-child(2) {
+    width: 50%;
+    text-align: left;
+    cursor: pointer;
     transition: color 0.2s ease, text-decoration 0.2s ease;
 }
 
-.table td:nth-child(2):hover {
-    color: #007bff; /* 마우스 오버 시 텍스트 색상 변경 */
-    text-decoration: underline; /* 밑줄 추가 */
+.districtTable td:nth-child(2):hover {
+    color: #007bff;
+    text-decoration: underline;
 }
 
-.table th:nth-child(3),
-.table th:nth-child(4),
-.table td:nth-child(3),
-.table td:nth-child(4) {
-    width: 25%; /* 생성일자와 업데이트 일자가 나머지 절반을 나눠서 차지 */
-    text-align: center; /* 생성일자와 업데이트 일자 중앙 정렬 */
+/* 생성일자, 업데이트 일자 열 */
+.districtTable th:nth-child(3),
+.districtTable th:nth-child(4),
+.districtTable td:nth-child(3),
+.districtTable td:nth-child(4) {
+    width: 25%;
+    text-align: center;
+}
+
+/* 전기 요금 데이터베이스 테이블 스타일 */
+.billTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.billTable th,
+.billTable td {
+    padding: 10px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.billTable th {
+    background-color: #e0e4e9;
+    cursor: pointer;
+}
+
+.billTable th:hover {
+    background-color: #d5d8dc;
+}
+
+.billTable td {
+    background-color: #f9fbfd;
+}
+
+.billTable tr:not(:last-child) td {
+    border-bottom: 1px solid #d3d6da;
+}
+
+/* 전기 요금 고지서 목록 열 */
+.billTable th:nth-child(2),
+.billTable td:nth-child(2) {
+    width: 35%;
+    text-align: left;
+    cursor: pointer;
+    transition: color 0.2s ease, text-decoration 0.2s ease;
+}
+
+.billTable td:nth-child(2):hover {
+    color: #007bff;
+    text-decoration: underline;
+}
+
+/* 청구 금액, 사용 전력량, 납기일, 생성일자, 업데이트 일자 열 */
+.billTable th:nth-child(3),
+.billTable th:nth-child(4),
+.billTable th:nth-child(5),
+.billTable th:nth-child(6),
+.billTable th:nth-child(7),
+.billTable td:nth-child(3),
+.billTable td:nth-child(4),
+.billTable td:nth-child(5),
+.billTable td:nth-child(6),
+.billTable td:nth-child(7) {
+    width: 13%;
+    text-align: center;
+}
+
+/* 총합을 나타내는 행의 스타일 */
+.billTable tfoot tr {
+    background-color: #f5f7fa;
+    font-weight: bold;
+}
+
+.billTable tfoot th {
+    text-align: center;
+    background-color: #e0e4e9;
+    padding: 10px;
+}
+
+.billTable tfoot td {
+    background-color: #f9fbfd;
+    padding: 10px;
+    text-align: center;
 }

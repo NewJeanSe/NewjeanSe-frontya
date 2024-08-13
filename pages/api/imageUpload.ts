@@ -54,7 +54,7 @@ const sendFileToFlask = async (file: File, res: NextApiResponse) => {
 
 	try {
 		const response = await axios.post(
-			'http://localhost:5000/upload', // flask 서버의 엔드 포인트 URL
+			'http://172.20.10.3:5000/upload', // flask 서버의 엔드 포인트 URL
 			formData,
 			{
 				headers: formData.getHeaders(),
@@ -64,6 +64,23 @@ const sendFileToFlask = async (file: File, res: NextApiResponse) => {
 		// Flask 서버로부터 받은 결과에 업로드된 파일의 경로 추가
 		const responseData = response.data;
 		responseData.imagePath = `/uploads/${file.newFilename}`;
+
+		// 파일 경로를 포함한 데이터를 데이터베이스에 저장하기 위한 POST 요청을 수행합니다.
+		await fetch('/api/database', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				id: responseData.id || crypto.randomUUID(), // 유니크 ID 추가
+				name: file.originalFilename || file.newFilename,
+				imagePath: responseData.imagePath,
+				dueDate: responseData.dueDate,
+				amountDue: responseData.amountDue,
+				powerUsage: responseData.powerUsage,
+				type: 'bill', // Type을 bill로 설정
+			}),
+		});
 
 		res.status(200).json(responseData);
 	} catch (error: any) {
