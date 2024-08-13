@@ -10,6 +10,7 @@ interface DatabaseItem {
 	name: string;
 	createdDate: string;
 	updatedDate: string;
+	type: 'district' | 'bill'; // 'type' 속성 추가
 }
 
 const UserDataBaseMain: React.FC = () => {
@@ -30,12 +31,30 @@ const UserDataBaseMain: React.FC = () => {
 		const fetchDatabase = async () => {
 			const response = await fetch('/api/database');
 			const data = await response.json();
-			setDistrictDatabase(data.districts);
-			setElectricityBillDatabase(data.bills);
+
+			// 각 항목에 타입 정보 추가
+			const districtsWithType = data.districts.map((item: any) => ({
+				...item,
+				type: 'district',
+			}));
+			const billsWithType = data.bills.map((item: any) => ({
+				...item,
+				type: 'bill',
+			}));
+
+			setDistrictDatabase(districtsWithType);
+			setElectricityBillDatabase(billsWithType);
 		};
 
 		fetchDatabase();
 	}, []);
+
+	useEffect(() => {
+		console.log(
+			'Selected Database Type has been updated:',
+			selectedDatabaseType,
+		);
+	}, [selectedDatabaseType]);
 
 	const toggleSelectAll = (
 		list: string[],
@@ -74,11 +93,30 @@ const UserDataBaseMain: React.FC = () => {
 	};
 
 	const handleOpenSelected = (selectedItems: string[]) => {
+		console.log('Selected Items:', selectedItems);
+
 		if (selectedItems.length === 1) {
 			const selectedItem = selectedItems[0];
-			if (selectedDatabaseType === 'district') {
+			const district = districtDatabase.find(item => item.id === selectedItem);
+			const bill = electricityBillDatabase.find(
+				item => item.id === selectedItem,
+			);
+
+			let selectedType = '';
+			if (district) {
+				selectedType = district.type;
+			} else if (bill) {
+				selectedType = bill.type;
+			}
+
+			console.log('Opening item:', selectedItem);
+			console.log('Detected Database Type:', selectedType);
+
+			if (selectedType === 'district') {
+				console.log('Opening district page');
 				window.open(`/userDataBaseDetailed/${selectedItem}`, '_blank');
-			} else {
+			} else if (selectedType === 'bill') {
+				console.log('Opening bill page');
 				window.open(`/OCRDataBaseDetailed/${selectedItem}`, '_blank');
 			}
 		} else {
@@ -87,20 +125,39 @@ const UserDataBaseMain: React.FC = () => {
 	};
 
 	const handleDoubleClick = (id: string) => {
-		if (selectedDatabaseType === 'district') {
+		// ID로 항목을 찾아 타입을 확인
+		const district = districtDatabase.find(item => item.id === id);
+		const bill = electricityBillDatabase.find(item => item.id === id);
+
+		let selectedType = '';
+		if (district) {
+			selectedType = district.type;
+		} else if (bill) {
+			selectedType = bill.type;
+		}
+
+		console.log('Double-clicked ID:', id);
+		console.log('Detected Database Type:', selectedType);
+
+		if (selectedType === 'district') {
+			console.log('Opening district page');
 			window.open(`/userDataBaseDetailed/${id}`, '_blank');
-		} else {
+		} else if (selectedType === 'bill') {
+			console.log('Opening bill page');
 			window.open(`/OCRDataBaseDetailed/${id}`, '_blank');
+		} else {
+			console.error('Unknown database type:', selectedType);
 		}
 	};
 
 	const handleAdd = async (name: string) => {
 		const type = selectedDatabaseType;
-		const newItem = {
+		const newItem: DatabaseItem = {
 			id: crypto.randomUUID(),
 			name,
 			createdDate: new Date().toISOString().split('T')[0],
 			updatedDate: new Date().toISOString().split('T')[0],
+			type: type, // 여기서 type을 명시합니다.
 		};
 
 		const response = await fetch('/api/database', {
@@ -108,7 +165,7 @@ const UserDataBaseMain: React.FC = () => {
 			headers: {
 				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify({ ...newItem, type }),
+			body: JSON.stringify(newItem),
 		});
 
 		if (response.ok) {
@@ -164,11 +221,13 @@ const UserDataBaseMain: React.FC = () => {
 	};
 
 	const openCreateModal = (type: 'district' | 'bill') => {
+		console.log('Opening create modal for:', type);
 		setSelectedDatabaseType(type);
 		setIsCreateModalOpen(true);
 	};
 
 	const openDeleteModal = (type: 'district' | 'bill') => {
+		console.log('Opening delete modal for:', type);
 		setSelectedDatabaseType(type);
 		setIsDeleteModalOpen(true);
 	};
