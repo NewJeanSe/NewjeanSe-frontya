@@ -1,0 +1,18 @@
+.container {
+	position: relative;
+}
+
+.content {
+	padding-top: 80px; /* 헤더의 높이에 맞게 조정 */
+	margin: 20px;
+}
+
+.headerBar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: 1000;
+	background-color: #fff;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}

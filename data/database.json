@@ -1,0 +1,39 @@
+{
+  "districts": [
+    {
+      "id": "unique-id-1",
+      "name": "서울시 성북구",
+      "createdDate": "2023-07-01",
+      "updatedDate": "2023-08-01"
+    }
+  ],
+  "bills": [
+    {
+      "id": "unique-id-3",
+      "name": "전기고지서 예시 이미지.png",
+      "createdDate": "2024-08-13",
+      "updatedDate": "2024-08-13",
+      "dueDate": 1,
+      "amountDue": 1,
+      "powerUsage": 1
+    },
+    {
+      "id": "unique-id-5",
+      "name": "a.png",
+      "createdDate": "2024-08-13",
+      "updatedDate": "2024-08-13",
+      "dueDate": 1,
+      "amountDue": 1,
+      "powerUsage": 1
+    },
+    {
+      "id": "da10ddc9-c46f-4194-a07b-71b8c8be2c97",
+      "name": "스크린샷 2023-10-10 090759.png",
+      "createdDate": "2024-08-13",
+      "updatedDate": "2024-08-13",
+      "dueDate": 1,
+      "amountDue": 1,
+      "powerUsage": 1
+    }
+  ]
+}
