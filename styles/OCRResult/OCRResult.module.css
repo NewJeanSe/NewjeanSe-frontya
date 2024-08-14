@@ -87,3 +87,43 @@
   text-align: right;
   flex: 1;
 }
+
+.editButtonContainer {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.editButton {
+  display: flex;
+  align-items: center;
+  background-color: #0070f3;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-family: 'GmarketSansMedium', sans-serif;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.editButton:hover {
+  background-color: #005bb5;
+}
+
+.editButtonIcon {
+  margin-right: 8px;
+}
+
+.inputField {
+  padding: 5px;
+  font-size: 16px;
+  flex: 1;
+  text-align: right;
+}
+
+.editing {
+  background-color: #cccccc; /* 수정 중일 때 버튼 배경색을 회색으로 변경 */
+}

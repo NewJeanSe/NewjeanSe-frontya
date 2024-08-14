@@ -65,6 +65,34 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 		writeDatabase(database);
 		res.status(201).json({ message: 'Entry added successfully' });
 	}
+	// PUT 요청 처리: 항목 업데이트
+	else if (req.method === 'PUT') {
+		const { id, dueDate, amountDue, powerUsage } = req.body;
+
+		// 유효성 검사: id가 필수
+		if (!id) {
+			res.status(400).json({ error: 'Invalid input' });
+			return;
+		}
+
+		// 데이터베이스에서 해당 항목 찾기
+		const bill = database.bills.find((bill: any) => bill.id === id);
+
+		if (!bill) {
+			res.status(404).json({ error: 'Bill not found' });
+			return;
+		}
+
+		// 항목 업데이트
+		bill.dueDate = dueDate;
+		bill.amountDue = amountDue;
+		bill.powerUsage = powerUsage;
+		bill.updatedDate = new Date().toISOString().split('T')[0]; // 업데이트 날짜 갱신
+
+		// 데이터베이스 업데이트
+		writeDatabase(database);
+		res.status(200).json({ message: 'Entry updated successfully' });
+	}
 	// DELETE 요청 처리: 항목 삭제
 	else if (req.method === 'DELETE') {
 		const { ids, type } = req.body;
@@ -97,7 +125,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 	}
 	// 지원하지 않는 HTTP 메소드 처리
 	else {
-		res.setHeader('Allow', ['GET', 'POST', 'DELETE']); // 지원하는 메소드들을 명시
+		res.setHeader('Allow', ['GET', 'POST', 'PUT', 'DELETE']); // 지원하는 메소드들을 명시
 		res.status(405).end(`Method ${req.method} Not Allowed`); // 405 Method Not Allowed 반환
 	}
 }

@@ -35,9 +35,9 @@
       "name": "a.png",
       "createdDate": "2024-08-14",
       "updatedDate": "2024-08-14",
-      "dueDate": 1,
-      "amountDue": 1,
-      "powerUsage": 1,
+      "dueDate": "1",
+      "amountDue": 140,
+      "powerUsage": 100,
       "imagePath": "http://localhost:5000/uploads/f9a2a3ba-50a8-4485-b7a3-8c8b6b3dea1f.png"
     }
   ]

@@ -1,7 +1,7 @@
 import { GetServerSideProps } from 'next';
 import path from 'path';
 import fs from 'fs';
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import styles from '@/styles/OCRResult/OCRResult.module.css';
 import OCRDataBaseHeaderBar from '@/components/userDB/OCRDataBaseHeaderBar';
@@ -18,6 +18,35 @@ interface BillDetailProps {
 }
 
 const BillDetail: React.FC<BillDetailProps> = ({ bill }) => {
+	const [isEditing, setIsEditing] = useState(false);
+	const [dueDate, setDueDate] = useState(bill?.dueDate || '');
+	const [amountDue, setAmountDue] = useState(bill?.amountDue || 0);
+	const [powerUsage, setPowerUsage] = useState(bill?.powerUsage || 0);
+
+	const handleEditClick = async () => {
+		if (isEditing) {
+			// 수정된 데이터 저장
+			await fetch('/api/database', {
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					id: bill?.id,
+					dueDate,
+					amountDue,
+					powerUsage,
+				}),
+			});
+
+			// 수정된 값들을 상태에 반영하여 UI 갱신
+			bill!.dueDate = dueDate;
+			bill!.amountDue = amountDue;
+			bill!.powerUsage = powerUsage;
+		}
+		setIsEditing(!isEditing);
+	};
+
 	if (!bill) {
 		return <div>해당 데이터를 찾을 수 없습니다.</div>;
 	}
@@ -49,16 +78,61 @@ const BillDetail: React.FC<BillDetailProps> = ({ bill }) => {
 					<div className={styles.detailsContainer}>
 						<div className={styles.detailRow}>
 							<span className={styles.detailLabel}>납기일 :</span>
-							<span className={styles.detailValue}>{bill.dueDate}</span>
+							{isEditing ? (
+								<input
+									type="text"
+									value={dueDate}
+									onChange={e => setDueDate(e.target.value)}
+									className={styles.inputField}
+								/>
+							) : (
+								<span className={styles.detailValue}>{dueDate}</span>
+							)}
 						</div>
 						<div className={styles.detailRow}>
 							<span className={styles.detailLabel}>청구 금액 :</span>
-							<span className={styles.detailValue}>{bill.amountDue} 원</span>
+							{isEditing ? (
+								<input
+									type="number"
+									value={amountDue}
+									onChange={e => setAmountDue(Number(e.target.value))}
+									className={styles.inputField}
+								/>
+							) : (
+								<span className={styles.detailValue}>{amountDue} 원</span>
+							)}
 						</div>
 						<div className={styles.detailRow}>
 							<span className={styles.detailLabel}>사용 전력량 :</span>
-							<span className={styles.detailValue}>{bill.powerUsage} kW/h</span>
+							{isEditing ? (
+								<input
+									type="number"
+									value={powerUsage}
+									onChange={e => setPowerUsage(Number(e.target.value))}
+									className={styles.inputField}
+								/>
+							) : (
+								<span className={styles.detailValue}>{powerUsage} kW/h</span>
+							)}
 						</div>
+					</div>
+					<div className={styles.divider} />
+
+					{/* 데이터 수정하기 버튼 */}
+					<div className={styles.editButtonContainer}>
+						<button
+							className={`${styles.editButton} ${isEditing ? styles.editing : ''}`}
+							onClick={handleEditClick}
+						>
+							<Image
+								src="/images/userDB/데이터 수정하기.svg"
+								alt="Edit Data"
+								className={styles.editButtonIcon}
+								width={20}
+								height={20}
+							/>
+							{isEditing ? '수정 완료' : '데이터 수정하기'}
+						</button>
 					</div>
 				</div>
 			</div>
