@@ -81,10 +81,11 @@ const sendFileToFlask = async (
 	try {
 		// Flask 서버에 파일 전송
 		const response = await axios.post(
-			'http://172.16.0.139:5000/upload', // Flask 서버의 엔드포인트 URL
+			'http://127.0.0.1:5000/upload', // Flask 서버의 엔드포인트 URL
 			formData,
 			{
 				headers: formData.getHeaders(),
+				timeout: 60000, // 타임아웃 시간을 60초로 설정
 			},
 		);
 

@@ -1,8 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { useRouter } from 'next/router';
 import styles from '../styles/OCRResult/OCRResult.module.css';
 import HeaderBar from '@/components/mainMap/headerBar';
-import { v4 as uuidv4 } from 'uuid';
 
 interface OCRResultData {
 	imagePath: string;
@@ -15,8 +14,6 @@ interface OCRResultData {
 const OCRResult: React.FC = () => {
 	const router = useRouter();
 	const { result } = router.query;
-
-	const hasRunRef = useRef(false);
 
 	let resultData: OCRResultData | null = null;
 	if (result) {
@@ -33,38 +30,6 @@ const OCRResult: React.FC = () => {
 	const dueDate = resultData ? resultData.dueDate : 'Unknown';
 	const amountDue = resultData ? resultData.amountDue : 1;
 	const powerUsage = resultData ? resultData.powerUsage : 1;
-
-	useEffect(() => {
-		if (resultData && !hasRunRef.current) {
-			hasRunRef.current = true;
-			const addBillData = async () => {
-				const response = await fetch('/api/database', {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-					},
-					body: JSON.stringify({
-						id: uuidv4(),
-						name: imageName,
-						type: 'bill',
-						imagePath: imageUrl, // 이미지 경로 추가
-						dueDate,
-						amountDue,
-						powerUsage,
-					}),
-				});
-
-				if (response.ok) {
-					console.log('Data added successfully');
-				} else {
-					const errorData = await response.json();
-					console.error('Failed to add bill data', errorData);
-				}
-			};
-
-			addBillData();
-		}
-	}, [resultData, imageName, dueDate, amountDue, powerUsage, imageUrl]);
 
 	return (
 		<div>

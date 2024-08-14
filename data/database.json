@@ -21,16 +21,7 @@
       "imagePath": "/uploads/전기고지서 예시 이미지.png"
     },
     {
-      "id": "db993feb-c369-4fc0-b32b-c0419b81afcd",
-      "name": "a.png",
-      "createdDate": "2024-08-14",
-      "updatedDate": "2024-08-14",
-      "dueDate": 1,
-      "amountDue": 1,
-      "powerUsage": 1
-    },
-    {
-      "id": "c72629e4-54e4-4e5d-becd-1a53ab6954c0",
+      "id": "8e7f6b8d-0b40-4ba7-a411-588bb31ab549",
       "name": "a.png",
       "createdDate": "2024-08-14",
       "updatedDate": "2024-08-14",
