@@ -16,6 +16,9 @@ const nextConfig = {
 		});
 		return config;
 	},
+	images: {
+		domains: ['localhost'], // 외부 이미지 호스트 허용
+	},
 };
 
 export default withTM(nextConfig);

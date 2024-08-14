@@ -25,10 +25,11 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 	}
 	// POST 요청 처리: 새로운 항목을 추가
 	else if (req.method === 'POST') {
-		const { id, name, type, dueDate, amountDue, powerUsage } = req.body;
+		const { id, name, type, dueDate, amountDue, powerUsage, imagePath } =
+			req.body;
 
-		// 유효성 검사: id, name, type이 필수
-		if (!id || !name || !type) {
+		// 유효성 검사: id, name, type, imagePath가 필수
+		if (!id || !name || !type || (type === 'bill' && !imagePath)) {
 			res.status(400).json({ error: 'Invalid input' });
 			return;
 		}
@@ -51,6 +52,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 				dueDate,
 				amountDue,
 				powerUsage,
+				imagePath, // imagePath 추가
 			};
 			database.bills.push(billEntry);
 		} else {

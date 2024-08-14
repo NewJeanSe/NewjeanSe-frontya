@@ -4,7 +4,7 @@ import fs from 'fs';
 import React from 'react';
 import Image from 'next/image';
 import styles from '@/styles/OCRResult/OCRResult.module.css';
-import HeaderBar from '@/components/mainMap/headerBar';
+import OCRDataBaseHeaderBar from '@/components/userDB/OCRDataBaseHeaderBar';
 
 interface BillDetailProps {
 	bill: {
@@ -24,7 +24,10 @@ const BillDetail: React.FC<BillDetailProps> = ({ bill }) => {
 
 	return (
 		<div>
-			<HeaderBar showSidebarToggle={false} />
+			<OCRDataBaseHeaderBar
+				onToggleSidebar={() => {}} // 적절한 핸들러를 여기에 추가하세요
+				isSidebarVisible={false} // 필요에 따라 값을 조정하세요
+			/>
 			<div className={styles.content}>
 				<h2>{bill.name}의 상세 페이지</h2>
 				<div className={styles.resultContainer}>

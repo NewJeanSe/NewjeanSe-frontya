@@ -87,15 +87,16 @@ const SelectOCRImageModal: React.FC<{ onClose: () => void }> = ({
 				pathname: '/OCRResult',
 				query: {
 					result: JSON.stringify({
-						...data, // 기존 데이터에 추가
-						imageName: file.name, // 파일 이름을 추가하여 전달
+						...data,
+						imageName: file.name,
+						imagePath: data.imagePath, // imagePath를 결과로 추가하여 전달
 					}),
 				},
 			});
 		} catch (error) {
 			setError('파일이 정상적으로 입력되지 않았습니다.');
 			console.error('Error:', error);
-			setLoading(false); // 실패 시 로딩 중 상태 해제
+			setLoading(false);
 		}
 	};
 

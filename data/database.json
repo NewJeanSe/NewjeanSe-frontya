@@ -21,13 +21,24 @@
       "imagePath": "/uploads/전기고지서 예시 이미지.png"
     },
     {
-      "id": "8e7f6b8d-0b40-4ba7-a411-588bb31ab549",
+      "id": "d2e530f5-869e-44a2-b4aa-9af20c8f8fe2",
+      "name": "CSTS 접수 인증샷.png",
+      "createdDate": "2024-08-14",
+      "updatedDate": "2024-08-14",
+      "dueDate": 1,
+      "amountDue": 1,
+      "powerUsage": 1,
+      "imagePath": "http://localhost:5000/uploads/91948bcc-cdfe-42e8-a57f-aa768bd07a7d.png"
+    },
+    {
+      "id": "30f6ba01-2b9b-46e5-b36c-e6aff3d345ca",
       "name": "a.png",
       "createdDate": "2024-08-14",
       "updatedDate": "2024-08-14",
       "dueDate": 1,
       "amountDue": 1,
-      "powerUsage": 1
+      "powerUsage": 1,
+      "imagePath": "http://localhost:5000/uploads/f9a2a3ba-50a8-4485-b7a3-8c8b6b3dea1f.png"
     }
   ]
 }
