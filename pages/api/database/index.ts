@@ -27,7 +27,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 	else if (req.method === 'POST') {
 		const { id, name, type, dueDate, amountDue, powerUsage } = req.body;
 
-		// 유효성 검사: name과 type이 필수
+		// 유효성 검사: id, name, type이 필수
 		if (!id || !name || !type) {
 			res.status(400).json({ error: 'Invalid input' });
 			return;
