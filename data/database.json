@@ -11,28 +11,45 @@
       "isFavorite": false
     },
     {
-      "polygonId": "42150",
-      "name": "강릉시",
+      "polygonId": "42800",
+      "name": "양구군",
       "isFavorite": true
     },
     {
-      "polygonId": "42830",
-      "name": "양양군",
+      "polygonId": "41820",
+      "name": "가평군",
+      "isFavorite": true
+    },
+    {
+      "polygonId": "42790",
+      "name": "화천군",
       "isFavorite": true
     }
   ],
   "districts": [
     {
-      "id": "cd1fe17c-8f69-47ed-bc27-0c2d3b05dca1",
-      "name": "내가 보고 싶은 시군구 목록",
-      "createdDate": "2024-08-15",
-      "updatedDate": "2024-08-15"
+      "id": "42810",
+      "name": "인제군",
+      "createdDate": "2024-08-16",
+      "updatedDate": "2024-08-16"
     },
     {
-      "id": "80521826-53b7-41ae-87a5-8856853b20b2",
-      "name": "즐겨찾기 목록",
-      "createdDate": "2024-08-15",
-      "updatedDate": "2024-08-15"
+      "id": "41820",
+      "name": "가평군",
+      "createdDate": "2024-08-16",
+      "updatedDate": "2024-08-16"
+    },
+    {
+      "id": "42790",
+      "name": "화천군",
+      "createdDate": "2024-08-16",
+      "updatedDate": "2024-08-16"
+    },
+    {
+      "id": "42800",
+      "name": "양구군",
+      "createdDate": "2024-08-16",
+      "updatedDate": "2024-08-16"
     }
   ],
   "bills": [

@@ -5,6 +5,7 @@ import fs from 'fs';
 
 import styles from '@/styles/userDB/userDataBaseDetailed.module.css'; // 새로운 CSS 파일 경로로 변경
 import OCRDataBaseHeaderBar from '@/components/userDB/OCRDataBaseHeaderBar';
+import MonthlyDemandChart from '@/components/charts/monthlyDemandChart'; // MonthlyDemandChart 컴포넌트 가져오기
 
 interface DistrictDetailProps {
 	district: {
@@ -27,9 +28,17 @@ const DistrictDetail: React.FC<DistrictDetailProps> = ({ district }) => {
 				isSidebarVisible={false}
 			/>
 			<div className={styles.content}>
-				<h1>{district.name} 테이블의 상세 페이지</h1>
-				<p>생성일자: {district.createdDate}</p>
-				<p>업데이트 일자: {district.updatedDate}</p>
+				<div className={styles.detailContainer}>
+					<h1 className={styles.title}>{district.name} 테이블의 상세 페이지</h1>
+
+					{/* Divider 추가 */}
+					<div className={styles.divider}></div>
+
+					{/* MonthlyDemandChart 컴포넌트를 이 위치에 추가합니다 */}
+					<div className={styles.chartContainer}>
+						<MonthlyDemandChart polygonId={district.id} />
+					</div>
+				</div>
 			</div>
 		</div>
 	);

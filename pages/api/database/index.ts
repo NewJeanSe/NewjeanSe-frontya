@@ -88,15 +88,37 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 					name,
 					isFavorite: true,
 				});
-				console.log(`Added to favorites: ${polygonId}`);
+				// 시/군/구 데이터베이스에 항목 추가
+				database.districts.push({
+					id: polygonId,
+					name,
+					createdDate: new Date().toISOString().split('T')[0],
+					updatedDate: new Date().toISOString().split('T')[0],
+				});
+				console.log(`Added to favorites and district database: ${polygonId}`);
 			} else if (!favoriteItem.isFavorite) {
 				// 즐겨찾기 상태가 false인 경우 true로 변경
 				favoriteItem.isFavorite = true;
-				console.log(`Set isFavorite to true for ${polygonId}`);
+				// 시/군/구 데이터베이스에 항목 추가
+				database.districts.push({
+					id: polygonId,
+					name,
+					createdDate: new Date().toISOString().split('T')[0],
+					updatedDate: new Date().toISOString().split('T')[0],
+				});
+				console.log(
+					`Set isFavorite to true and added to district database for ${polygonId}`,
+				);
 			} else {
 				// 이미 즐겨찾기에 추가된 경우, isFavorite을 false로 변경
 				favoriteItem.isFavorite = false;
-				console.log(`Set isFavorite to false for ${polygonId}`);
+				// 시/군/구 데이터베이스에서 해당 항목 삭제
+				database.districts = database.districts.filter(
+					(district: any) => district.id !== polygonId,
+				);
+				console.log(
+					`Set isFavorite to false and removed from district database for ${polygonId}`,
+				);
 			}
 
 			// 데이터베이스 업데이트
@@ -106,6 +128,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 			res.status(400).json({ error: 'Invalid action' });
 		}
 	}
+
 	// DELETE 요청 처리: 항목 삭제
 	else if (req.method === 'DELETE') {
 		const { ids, type } = req.body;

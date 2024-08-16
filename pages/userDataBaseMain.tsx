@@ -51,7 +51,12 @@ const UserDataBaseMain: React.FC = () => {
 			setElectricityBillDatabase(billsWithType);
 		};
 
+		// 폴링 또는 서버에서 발생한 변경사항을 감지하여 데이터 갱신
+		const intervalId = setInterval(fetchDatabase, 5000); // 5초마다 데이터베이스 확인
+
 		fetchDatabase();
+
+		return () => clearInterval(intervalId); // 컴포넌트 언마운트 시 폴링 중지
 	}, []);
 
 	const calculateTotals = () => {

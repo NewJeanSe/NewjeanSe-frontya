@@ -16,3 +16,27 @@
 	background-color: #fff;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
+.detailContainer {
+	background-color: #fff; /* 배경색을 하얀색으로 설정 */
+	padding: 20px;
+	border-radius: 8px; /* 둥근 모서리 */
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 살짝의 그림자 추가 */
+	margin-top: 20px; /* 제목과 차트 사이의 간격 */
+}
+
+.chartContainer {
+	width: 100%;
+	height: 400px; /* 적당한 세로 길이로 조정 */
+}
+
+.title {
+	margin-bottom: 20px; /* 제목과 divider 사이의 간격을 위한 마진 */
+}
+
+.divider {
+	width: 100%;
+	height: 2px;
+	background-color: #969090d2; /* 검정색 divider */
+	margin: 20px 0; /* divider 위아래로 여백 추가 */
+}
