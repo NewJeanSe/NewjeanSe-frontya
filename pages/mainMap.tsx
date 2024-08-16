@@ -32,15 +32,15 @@ const MainMap: React.FC = () => {
 		setIsSidebarVisible(prevState => !prevState);
 	};
 
-	const handleToggleFavorite = async (polygonId: string) => {
+	const handleToggleFavorite = async (polygonId: string, name: string) => {
 		try {
 			let updatedFavorites;
 			if (favoritePolygons.has(polygonId)) {
-				await removeFavorite('mainMap', polygonId);
+				await removeFavorite('mainMap', polygonId, name);
 				updatedFavorites = new Set(favoritePolygons);
 				updatedFavorites.delete(polygonId);
 			} else {
-				await addFavorite('mainMap', polygonId);
+				await addFavorite('mainMap', polygonId, name);
 				updatedFavorites = new Set(favoritePolygons);
 				updatedFavorites.add(polygonId);
 			}

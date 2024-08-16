@@ -16,10 +16,16 @@ interface Area {
 	location: string;
 }
 
+interface Favorite {
+	polygonId: string;
+	name: string;
+	isFavorite: boolean;
+}
+
 interface KakaoMapProps {
 	pageType: string;
 	favoritePolygons: Set<string>;
-	onToggleFavorite: (polygonId: string) => void;
+	onToggleFavorite: (polygonId: string, name: string) => void; // 이름을 추가
 }
 
 const KakaoMap: React.FC<KakaoMapProps> = ({
@@ -32,10 +38,23 @@ const KakaoMap: React.FC<KakaoMapProps> = ({
 		position: any;
 		content: string;
 		polygonId: string;
+		isFavorite: boolean;
 	} | null>(null);
 	const [selectedPolygon, setSelectedPolygon] = useState<any>(null);
+	const [favorites, setFavorites] = useState<Favorite[]>([]);
 
 	useEffect(() => {
+		const fetchFavorites = async () => {
+			try {
+				const response = await axios.get('/api/database');
+				setFavorites(response.data.favorites);
+			} catch (error) {
+				console.error('Error fetching favorites:', error);
+			}
+		};
+
+		fetchFavorites();
+
 		const apiKey = process.env.NEXT_PUBLIC_KAKAO_API_KEY;
 		const scriptSrc = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${apiKey}&autoload=false`;
 
@@ -188,6 +207,13 @@ const KakaoMap: React.FC<KakaoMapProps> = ({
 						polygon.setOptions({ fillColor: '#09f' });
 						setSelectedPolygon(polygon);
 
+						// 즐겨찾기 상태 확인
+						const favorite = favorites.find(
+							(fav: Favorite) => fav.polygonId === area.location,
+						);
+
+						const isFavorite = favorite ? favorite.isFavorite : false;
+
 						if (!detailMode) {
 							map.panTo(center);
 						} else {
@@ -199,6 +225,7 @@ const KakaoMap: React.FC<KakaoMapProps> = ({
 									position: center,
 									content: area.name,
 									polygonId: area.location,
+									isFavorite: isFavorite, // 즐겨찾기 상태 전달
 								});
 							}
 						}
@@ -233,7 +260,7 @@ const KakaoMap: React.FC<KakaoMapProps> = ({
 		script.onerror = () => {
 			console.error('Failed to load Kakao API script.');
 		};
-	}, []);
+	}, []); // 빈 배열을 사용하여 처음 마운트될 때만 실행되도록 합니다.
 
 	return (
 		<>
@@ -241,7 +268,7 @@ const KakaoMap: React.FC<KakaoMapProps> = ({
 				<style>{`
 					.area {
 						position: absolute;
-						background: #fff;  
+						background: #fff;
 						border: 1px solid #888;
 						border-radius: 3px;
 						font-size: 12px;
@@ -258,12 +285,13 @@ const KakaoMap: React.FC<KakaoMapProps> = ({
 					position={infoWindowData.position}
 					content={infoWindowData.content}
 					polygonId={infoWindowData.polygonId}
+					pageType={pageType}
 					onLoad={() => {}}
 					onClose={() => {
 						setInfoWindowData(null);
 					}}
 					onToggleFavorite={onToggleFavorite}
-					isFavorite={favoritePolygons.has(infoWindowData.polygonId)}
+					isFavorite={infoWindowData.isFavorite} // 즐겨찾기 상태 전달
 				/>
 			)}
 		</>

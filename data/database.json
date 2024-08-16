@@ -1,11 +1,28 @@
 {
+  "favorites": [
+    {
+      "polygonId": "42810",
+      "name": "인제군",
+      "isFavorite": true
+    },
+    {
+      "polygonId": "42720",
+      "name": "홍천군",
+      "isFavorite": false
+    }
+  ],
   "districts": [
     {
-      "id": "unique-id-1",
-      "name": "서울시 성북구",
-      "createdDate": "2023-07-01",
-      "updatedDate": "2023-08-01",
-      "type": "district"
+      "id": "cd1fe17c-8f69-47ed-bc27-0c2d3b05dca1",
+      "name": "내가 보고 싶은 시군구 목록",
+      "createdDate": "2024-08-15",
+      "updatedDate": "2024-08-15"
+    },
+    {
+      "id": "80521826-53b7-41ae-87a5-8856853b20b2",
+      "name": "즐겨찾기 목록",
+      "createdDate": "2024-08-15",
+      "updatedDate": "2024-08-15"
     }
   ],
   "bills": [

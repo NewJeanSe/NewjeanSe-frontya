@@ -1,8 +1,9 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
-import { addFavorite, removeFavorite } from '@/lib/api';
+import axios from 'axios'; // Axios를 직접 사용하여 API 호출
 import styles from './infoWindow.module.css';
 import MonthlyDemandChart from '../charts/monthlyDemandChart';
+import Image from 'next/image';
 
 declare global {
 	interface Window {
@@ -10,6 +11,12 @@ declare global {
 		infoWindowClose: () => void;
 		toggleFavorite: (polygonId: string) => void;
 	}
+}
+
+interface Favorite {
+	polygonId: string;
+	name: string;
+	isFavorite: boolean;
 }
 
 interface InfoWindowProps {
@@ -20,7 +27,7 @@ interface InfoWindowProps {
 	pageType: string;
 	onLoad: (dimensions: { width: number; height: number }) => void;
 	onClose: () => void;
-	onToggleFavorite: (polygonId: string) => void;
+	onToggleFavorite: (polygonId: string, name: string) => void;
 	isFavorite: boolean;
 }
 
@@ -38,6 +45,10 @@ const InfoWindow: React.FC<InfoWindowProps> = ({
 	const infowindowRef = useRef<any>(null);
 	const containerRef = useRef<HTMLDivElement | null>(null);
 
+	// 상태 정의 추가
+	const [isProcessing, setIsProcessing] = useState(false);
+	const [favorites, setFavorites] = useState<Favorite[]>([]);
+
 	useEffect(() => {
 		if (containerRef.current) {
 			const infowindow = new window.kakao.maps.InfoWindow({
@@ -52,33 +63,42 @@ const InfoWindow: React.FC<InfoWindowProps> = ({
 		}
 
 		return () => {
+			const currentContainer = containerRef.current;
 			if (infowindowRef.current) {
 				infowindowRef.current.close();
 				infowindowRef.current.setMap(null);
 				infowindowRef.current = null;
 			}
 
-			if (containerRef.current && containerRef.current.parentNode) {
-				ReactDOM.unmountComponentAtNode(containerRef.current);
-				containerRef.current.parentNode.removeChild(containerRef.current);
+			if (currentContainer && currentContainer.parentNode) {
+				ReactDOM.unmountComponentAtNode(currentContainer);
+				currentContainer.parentNode.removeChild(currentContainer);
 			}
 		};
 	}, [map, position, onLoad]);
 
-	const handleToggleFavorite = async (polygonId: string) => {
+	// 즐겨찾기 토글 핸들러
+	const handleToggleFavorite = async (polygonId: string, name: string) => {
+		if (isProcessing) return;
+		setIsProcessing(true);
+
 		try {
-			if (isFavorite) {
-				// '즐겨찾기'에서 제거
-				await removeFavorite(pageType, polygonId);
-				console.log(`Polygon ${polygonId} removed from favorites.`);
-			} else {
-				// '즐겨찾기'에 추가
-				await addFavorite(pageType, polygonId);
-				console.log(`Polygon ${polygonId} added to favorites.`);
-			}
-			onToggleFavorite(polygonId); // 상태 갱신
+			// 즐겨찾기 토글 요청 보내기
+			const response = await axios.put('/api/database', {
+				action: 'toggleFavorite',
+				polygonId,
+				name,
+			});
+			console.log('Favorite status toggled:', response.data);
+
+			// 서버에서 최신 즐겨찾기 목록 가져오기
+			const updatedFavoritesResponse = await axios.get('/api/database');
+			const updatedFavorites = updatedFavoritesResponse.data.favorites;
+			setFavorites(updatedFavorites);
 		} catch (error) {
 			console.error('Error toggling favorite:', error);
+		} finally {
+			setIsProcessing(false);
 		}
 	};
 
@@ -89,14 +109,24 @@ const InfoWindow: React.FC<InfoWindowProps> = ({
 					×
 				</span>
 				<div className={styles.infoWindowTitle}>
-					<span
-						className={`${styles.favorite} ${
-							isFavorite ? styles.favoriteActive : ''
-						}`}
-						onClick={() => handleToggleFavorite(polygonId)}
+					<button
+						className={styles.favoriteButton}
+						style={{
+							backgroundColor: isFavorite ? 'blue' : 'transparent',
+						}}
+						onClick={() => handleToggleFavorite(polygonId, content)}
 					>
-						★
-					</span>
+						<Image
+							src={
+								isFavorite
+									? '/images/즐겨찾기 true 이미지.svg'
+									: '/images/즐겨찾기 false 이미지.svg'
+							}
+							alt="Favorite"
+							width={24}
+							height={24}
+						/>
+					</button>
 					{content}
 				</div>
 				<div className={styles.chartContainer}>

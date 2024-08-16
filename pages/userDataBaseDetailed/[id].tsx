@@ -1,8 +1,10 @@
+import React from 'react';
 import { GetServerSideProps } from 'next';
-import { useRouter } from 'next/router';
 import path from 'path';
 import fs from 'fs';
-import React from 'react';
+
+import styles from '@/styles/userDB/userDataBaseDetailed.module.css'; // 새로운 CSS 파일 경로로 변경
+import OCRDataBaseHeaderBar from '@/components/userDB/OCRDataBaseHeaderBar';
 
 interface DistrictDetailProps {
 	district: {
@@ -19,10 +21,16 @@ const DistrictDetail: React.FC<DistrictDetailProps> = ({ district }) => {
 	}
 
 	return (
-		<div>
-			<h1>{district.name}의 상세 페이지</h1>
-			<p>생성일자: {district.createdDate}</p>
-			<p>업데이트 일자: {district.updatedDate}</p>
+		<div className={styles.container}>
+			<OCRDataBaseHeaderBar
+				onToggleSidebar={() => {}}
+				isSidebarVisible={false}
+			/>
+			<div className={styles.content}>
+				<h1>{district.name} 테이블의 상세 페이지</h1>
+				<p>생성일자: {district.createdDate}</p>
+				<p>업데이트 일자: {district.updatedDate}</p>
+			</div>
 		</div>
 	);
 };

@@ -65,33 +65,46 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 		writeDatabase(database);
 		res.status(201).json({ message: 'Entry added successfully' });
 	}
-	// PUT 요청 처리: 항목 업데이트
+	// PUT 요청 처리: 항목 업데이트 및 즐겨찾기 토글
 	else if (req.method === 'PUT') {
-		const { id, dueDate, amountDue, powerUsage } = req.body;
+		const { action, polygonId, name } = req.body;
 
-		// 유효성 검사: id가 필수
-		if (!id) {
-			res.status(400).json({ error: 'Invalid input' });
-			return;
+		if (action === 'toggleFavorite') {
+			// 유효성 검사: polygonId와 name이 필수
+			if (!polygonId || !name) {
+				res.status(400).json({ error: 'Invalid input' });
+				return;
+			}
+
+			// 데이터베이스에서 해당 폴리곤 찾기
+			const favoriteItem = database.favorites.find(
+				(item: any) => item.polygonId === polygonId,
+			);
+
+			if (!favoriteItem) {
+				// 즐겨찾기에 없는 경우, 추가
+				database.favorites.push({
+					polygonId,
+					name,
+					isFavorite: true,
+				});
+				console.log(`Added to favorites: ${polygonId}`);
+			} else if (!favoriteItem.isFavorite) {
+				// 즐겨찾기 상태가 false인 경우 true로 변경
+				favoriteItem.isFavorite = true;
+				console.log(`Set isFavorite to true for ${polygonId}`);
+			} else {
+				// 이미 즐겨찾기에 추가된 경우, isFavorite을 false로 변경
+				favoriteItem.isFavorite = false;
+				console.log(`Set isFavorite to false for ${polygonId}`);
+			}
+
+			// 데이터베이스 업데이트
+			writeDatabase(database);
+			res.status(200).json({ message: 'Favorite status updated successfully' });
+		} else {
+			res.status(400).json({ error: 'Invalid action' });
 		}
-
-		// 데이터베이스에서 해당 항목 찾기
-		const bill = database.bills.find((bill: any) => bill.id === id);
-
-		if (!bill) {
-			res.status(404).json({ error: 'Bill not found' });
-			return;
-		}
-
-		// 항목 업데이트
-		bill.dueDate = dueDate;
-		bill.amountDue = amountDue;
-		bill.powerUsage = powerUsage;
-		bill.updatedDate = new Date().toISOString().split('T')[0]; // 업데이트 날짜 갱신
-
-		// 데이터베이스 업데이트
-		writeDatabase(database);
-		res.status(200).json({ message: 'Entry updated successfully' });
 	}
 	// DELETE 요청 처리: 항목 삭제
 	else if (req.method === 'DELETE') {

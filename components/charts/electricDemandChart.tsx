@@ -12,11 +12,12 @@ import {
 } from 'recharts';
 
 interface DataPoint {
-	x: string;
-	y: number;
+	datetime: string;
+	current_demand: number;
 }
 
-const formatTime = (date: Date) => {
+const formatTime = (dateString: string) => {
+	const date = new Date(dateString);
 	let hours = date.getHours();
 	const minutes = date.getMinutes();
 	const ampm = hours >= 12 ? 'PM' : 'AM';
@@ -27,76 +28,32 @@ const formatTime = (date: Date) => {
 	return strTime;
 };
 
-const generateInitialXAxisLabels = () => {
-	const labels = [];
-	const now = new Date();
-	labels.push(formatTime(now)); // 현재 시간을 첫 번째 값으로 추가
-	for (let i = 1; i <= 36; i++) {
-		// 3시간 = 36 * 5분
-		const label = new Date(now.getTime() + i * 5 * 60 * 1000);
-		labels.push(formatTime(label));
-	}
-	return labels;
-};
-
 const ElectricDemandChart: React.FC = () => {
-	const [realTimeData, setRealTimeData] = useState<DataPoint[]>([]);
-	const [predictionData, setPredictionData] = useState<DataPoint[]>([]);
-	const [xAxisLabels, setXAxisLabels] = useState<string[]>(
-		generateInitialXAxisLabels(),
-	);
+	const [chartData, setChartData] = useState<DataPoint[]>([]);
 
 	const fetchData = async () => {
 		try {
 			const response = await axios.get('/api/electricRuntimeKoreaDemandData');
 			console.log('API 응답 데이터:', response.data);
-			const newPoint: DataPoint = {
-				x: formatTime(new Date()),
-				y: response.data.power,
-			};
-			console.log('실시간 데이터 포인트:', newPoint);
-			setRealTimeData(prevData => [...prevData, newPoint]);
+
+			// 데이터를 적절히 가공합니다.
+			const formattedData = response.data.map((item: any) => ({
+				datetime: formatTime(item.datetime),
+				current_demand: item.current_demand,
+			}));
+
+			setChartData(formattedData);
 		} catch (error) {
 			console.error('데이터 가져오기 오류:', error);
 		}
 	};
 
-	const fetchPredictionData = async () => {
-		try {
-			const response = await axios.get('/api/electricRuntimeKoreaDemandData');
-			console.log('예측 API 응답 데이터:', response.data);
-			const predictionPoints = response.data.map(
-				(point: number[], index: number) => ({
-					x: xAxisLabels[index + 1], // 첫 번째 라벨은 실시간 데이터가 사용하므로 그 다음부터 시작
-					y: point[1], // Assuming the data structure is [[time, value], [...], ...]
-				}),
-			);
-			setPredictionData(predictionPoints);
-		} catch (error) {
-			console.error('예측 데이터 가져오기 오류:', error);
-		}
-	};
-
 	useEffect(() => {
 		fetchData(); // Fetch initial data
-		fetchPredictionData(); // Fetch initial prediction data
 
 		const dataInterval = setInterval(
 			() => {
 				fetchData();
-				fetchPredictionData();
-
-				setXAxisLabels(prevLabels => {
-					const newLabels = prevLabels.slice(1);
-					const newLabel = formatTime(
-						new Date(
-							new Date(prevLabels[prevLabels.length - 1]).getTime() +
-								5 * 60 * 1000,
-						),
-					);
-					newLabels.push(newLabel);
-					return newLabels;
-				});
 			},
 			5 * 60 * 1000,
 		); // Fetch data every 5 minutes
@@ -106,14 +63,12 @@ const ElectricDemandChart: React.FC = () => {
 		};
 	}, []);
 
-	const combinedData = [...realTimeData, ...predictionData];
-
-	console.log('전체 데이터:', combinedData);
+	console.log('차트 데이터:', chartData);
 
 	return (
 		<ResponsiveContainer width="100%" height={500}>
 			<LineChart
-				data={combinedData}
+				data={chartData}
 				margin={{
 					top: 50,
 					right: 30,
@@ -122,13 +77,13 @@ const ElectricDemandChart: React.FC = () => {
 				}}
 			>
 				<CartesianGrid strokeDasharray="3 3" />
-				<XAxis dataKey="x" minTickGap={20} />
+				<XAxis dataKey="datetime" minTickGap={20} />
 				<YAxis />
 				<Tooltip />
 				<Legend />
 				<Line
 					type="monotone"
-					dataKey="y"
+					dataKey="current_demand"
 					stroke="#8884d8"
 					activeDot={{ r: 8 }}
 					name="실시간 전국 예측 전력 수요량"
