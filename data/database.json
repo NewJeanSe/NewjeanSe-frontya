@@ -9,6 +9,16 @@
       "polygonId": "42720",
       "name": "홍천군",
       "isFavorite": false
+    },
+    {
+      "polygonId": "42150",
+      "name": "강릉시",
+      "isFavorite": true
+    },
+    {
+      "polygonId": "42830",
+      "name": "양양군",
+      "isFavorite": true
     }
   ],
   "districts": [

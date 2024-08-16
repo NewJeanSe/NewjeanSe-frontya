@@ -40,14 +40,13 @@ const InfoWindow: React.FC<InfoWindowProps> = ({
 	onLoad,
 	onClose,
 	onToggleFavorite,
-	isFavorite,
 }) => {
 	const infowindowRef = useRef<any>(null);
 	const containerRef = useRef<HTMLDivElement | null>(null);
 
 	// 상태 정의 추가
 	const [isProcessing, setIsProcessing] = useState(false);
-	const [favorites, setFavorites] = useState<Favorite[]>([]);
+	const [currentIsFavorite, setCurrentIsFavorite] = useState(false);
 
 	useEffect(() => {
 		if (containerRef.current) {
@@ -62,6 +61,20 @@ const InfoWindow: React.FC<InfoWindowProps> = ({
 			onLoad({ width: rect.width, height: rect.height });
 		}
 
+		// 컴포넌트가 처음 로드될 때, 해당 폴리곤의 즐겨찾기 상태를 가져옵니다.
+		const fetchFavoriteStatus = async () => {
+			try {
+				const response = await axios.get('/api/database');
+				const favorites = response.data.favorites as Favorite[];
+				const favoriteItem = favorites.find(fav => fav.polygonId === polygonId);
+				setCurrentIsFavorite(favoriteItem ? favoriteItem.isFavorite : false);
+			} catch (error) {
+				console.error('Error fetching favorites:', error);
+			}
+		};
+
+		fetchFavoriteStatus();
+
 		return () => {
 			const currentContainer = containerRef.current;
 			if (infowindowRef.current) {
@@ -75,7 +88,7 @@ const InfoWindow: React.FC<InfoWindowProps> = ({
 				currentContainer.parentNode.removeChild(currentContainer);
 			}
 		};
-	}, [map, position, onLoad]);
+	}, [map, position, onLoad, polygonId]);
 
 	// 즐겨찾기 토글 핸들러
 	const handleToggleFavorite = async (polygonId: string, name: string) => {
@@ -83,20 +96,30 @@ const InfoWindow: React.FC<InfoWindowProps> = ({
 		setIsProcessing(true);
 
 		try {
+			// 사용자에게 바로 반영되도록 먼저 상태를 반전시킵니다.
+			setCurrentIsFavorite(prev => !prev);
+
 			// 즐겨찾기 토글 요청 보내기
-			const response = await axios.put('/api/database', {
+			await axios.put('/api/database', {
 				action: 'toggleFavorite',
 				polygonId,
 				name,
 			});
-			console.log('Favorite status toggled:', response.data);
 
 			// 서버에서 최신 즐겨찾기 목록 가져오기
 			const updatedFavoritesResponse = await axios.get('/api/database');
 			const updatedFavorites = updatedFavoritesResponse.data.favorites;
-			setFavorites(updatedFavorites);
+
+			// 서버 상태에 맞게 로컬 상태를 업데이트
+			const favoriteItem = updatedFavorites.find(
+				(fav: Favorite) => fav.polygonId === polygonId,
+			);
+
+			setCurrentIsFavorite(favoriteItem ? favoriteItem.isFavorite : false);
 		} catch (error) {
 			console.error('Error toggling favorite:', error);
+			// 에러가 발생하면 원래 상태로 되돌립니다.
+			setCurrentIsFavorite(prev => !prev);
 		} finally {
 			setIsProcessing(false);
 		}
@@ -111,14 +134,11 @@ const InfoWindow: React.FC<InfoWindowProps> = ({
 				<div className={styles.infoWindowTitle}>
 					<button
 						className={styles.favoriteButton}
-						style={{
-							backgroundColor: isFavorite ? 'blue' : 'transparent',
-						}}
 						onClick={() => handleToggleFavorite(polygonId, content)}
 					>
 						<Image
 							src={
-								isFavorite
+								currentIsFavorite
 									? '/images/즐겨찾기 true 이미지.svg'
 									: '/images/즐겨찾기 false 이미지.svg'
 							}
