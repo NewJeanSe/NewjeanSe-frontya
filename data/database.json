@@ -28,12 +28,6 @@
   ],
   "districts": [
     {
-      "id": "42810",
-      "name": "인제군",
-      "createdDate": "2024-08-16",
-      "updatedDate": "2024-08-16"
-    },
-    {
       "id": "41820",
       "name": "가평군",
       "createdDate": "2024-08-16",
@@ -50,6 +44,12 @@
       "name": "양구군",
       "createdDate": "2024-08-16",
       "updatedDate": "2024-08-16"
+    },
+    {
+      "id": "42810",
+      "name": "인제군",
+      "createdDate": "2024-08-17",
+      "updatedDate": "2024-08-17"
     }
   ],
   "bills": [

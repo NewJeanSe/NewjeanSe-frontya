@@ -1,0 +1,21 @@
+<svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="50" height="50" fill="#F5F5F5"/>
+<g id="NewJeanSe HomePage">
+<rect width="1440" height="3220" transform="translate(-1314 -1330)" fill="white"/>
+<rect width="1440" height="3220" transform="translate(-1314 -1330)" fill="white"/>
+<g id="HomePageContatiner">
+<g id="HomePageBackground">
+<rect width="1440" height="3083" transform="translate(-1314 -1330)" fill="white"/>
+<g id="HomePageKeyFeaturesSection">
+<rect width="1440" height="1071" transform="translate(-1314 -356)" fill="#D8E4F3"/>
+<g id="KeyFeaturesList">
+</g>
+<g id="ic:outline-analytics">
+<path id="Vector" d="M39.5833 6.25H10.4167C8.125 6.25 6.25 8.125 6.25 10.4167V39.5833C6.25 41.875 8.125 43.75 10.4167 43.75H39.5833C41.875 43.75 43.75 41.875 43.75 39.5833V10.4167C43.75 8.125 41.875 6.25 39.5833 6.25ZM39.5833 39.5833H10.4167V10.4167H39.5833V39.5833Z" fill="black"/>
+<path id="Vector_2" d="M14.5833 25H18.75V35.4166H14.5833V25ZM31.25 14.5833H35.4167V35.4166H31.25V14.5833ZM22.9167 29.1666H27.0833V35.4166H22.9167V29.1666ZM22.9167 20.8333H27.0833V25H22.9167V20.8333Z" fill="black"/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</svg>

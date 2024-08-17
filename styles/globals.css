@@ -1,8 +1,56 @@
-@import './home/components.css';
-@import './home/index.css';
-@import './home/NewJeanSeHomePage.css';
-@import './home/styles.css';
+@import './home/NewJeanSeHomePage.module.css';
 /* Import other global styles or reset styles if any */
+
+/*=========== TABLE OF CONTENTS ===========
+1. CSS Variables
+2. Utility CSS
+==========================================*/
+
+/*-------------------------------------
+  1. CSS Variables
+--------------------------------------*/
+:root {
+  /*------Color variables------*/
+  --black_900: #000000;
+  --black_900_3f: #0000003f;
+  --blue_600: #1574f0;
+  --blue_700: #076bec;
+  --blue_800: #2f6ec0;
+  --blue_800_70: #1e64bc70;
+  --blue_a200: #4e8ad8;
+  --gray_400: #b5b5b5;
+  --gray_700: #555555;
+  --gray_900: #1a1a1a;
+  --gray_900_4c: #1a1a1a4c;
+  --gray_900_cc: #1a1a1acc;
+  --teal_50: #d8e4f3;
+  --white_a700: #ffffff;
+
+  /*------Shadow variables------*/
+  --shadow-xs: 0 4px 4px 0 #0000003f;
+
+  /*------Border radius variables------*/
+  --radius-xs: 6px;
+  --radius-sm: 12px;
+  --radius-md: 20px;
+  --radius-lg: 30px;
+  --radius-xl: 38px;
+  --radius-2xl: 40px;
+
+  /*------Spacing variables------*/
+  --space-xs: 6px;
+  --space-sm: 14px;
+}
+
+/*-------------------------------------
+  2. Utility CSS
+--------------------------------------*/
+.flex-col-center-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 
 body {
   margin: 0;
@@ -89,4 +137,22 @@ button {
 
 button:hover {
   background-color: #0056b3; /* 호버 시 버튼 배경색 */
+}
+
+#openModalBtn,
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#closeModalBtn {
+  background-color: #ccc;
+  margin-right: 10px;
+}
+
+#confirmBtn {
+  background-color: #333;
+  color: #fff;
 }

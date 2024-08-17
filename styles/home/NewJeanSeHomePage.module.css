@@ -1,0 +1,1110 @@
+/*=========== TABLE OF CONTENTS ===========
+3. Common CSS
+4. Page CSS
+5. Component Styles
+6. Modal Styles
+7. Text & Heading Styles
+==========================================*/
+
+@font-face {
+  font-family: 'GmarketSansBold';
+  src: url('/public/fonts/GMARKETSANSBOLD.OTF') format('opentype');
+  font-weight: bold;
+}
+
+.highlightedText {
+    font-weight: bold;
+    color: #076bec;
+}
+
+
+/* 헤더 아래에 일정한 공간을 유지하기 위한 스타일 */
+.newjeanseHomepage {
+  padding-top: 100px; /* 헤더의 높이만큼의 패딩을 추가하여 페이지의 다른 요소들이 헤더와 겹치지 않도록 함 */
+}
+
+/*-------------------------------------
+  3. Common CSS
+--------------------------------------*/
+.contrast_five {
+  height: 44px;
+}
+
+.newjeanse_three {
+  letter-spacing: -0.48px;
+  font-weight: 500 !important;
+}
+
+.homepagebutton-2 {
+  padding-top: var(--space-sm);
+  padding-bottom: var(--space-sm);
+  width: 100%;
+}
+
+.button-6 {
+  display: flex;
+  justify-content: center;
+  padding: var(--space-xs);
+  border-radius: var(--radius-md);
+}
+
+.class-___ {
+  white-space: nowrap;
+  margin: 0;
+}
+
+.newjeanse_one {
+  letter-spacing: -0.48px;
+}
+
+.reply_one {
+  height: 50px;
+  width: 50px;
+}
+
+.tabpanelimg {
+  height: 540px;
+  width: 32%;
+  object-fit: contain;
+}
+
+.tabpanelimgOne {
+  object-fit: cover;
+  border-radius: 8px;
+  width: 350px; /* 이 값을 원하는 크기로 변경 */
+  height: 400px; /* 이 값을 원하는 크기로 변경 */
+}
+
+
+
+.smoothTransition {
+    transition: transform 0.5s ease-in-out;
+}
+
+.tabpanelimg_one {
+  height: 540px;
+  width: 16%;
+  object-fit: contain;
+}
+
+.tab1ofthree_one {
+  height: 1px;
+  margin-top: 6px;
+  background-color: var(--gray_900_4c);
+  width: 12px;
+  border-radius: var(--radius-xs);
+}
+
+.disabledButton {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.previewbutton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: absolute;
+  top: 50%; /* 버튼을 세로 중앙에 위치시키기 */
+  transform: translateY(-50%); /* 세로 중앙으로 정렬 */
+  z-index: 10;
+}
+
+.previewbutton:first-of-type {
+  left: 50px; /* 왼쪽 버튼을 고정 위치에 배치 */
+}
+
+.previewbutton:last-of-type {
+  right: 50px; /* 오른쪽 버튼을 고정 위치에 배치 */
+}
+
+.button-2 {
+  width: 12%;
+  display: flex;
+  border-radius: var(--radius-sm);
+}
+
+.statelayer-1 {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+}
+
+.class-6 {
+  letter-spacing: 0.1px;
+  font-weight: 400 !important;
+}
+
+.newjeanse_two {
+  color: var(--gray_400) !important;
+  letter-spacing: -0.48px;
+}
+
+.electricko {
+  color: var(--gray_700) !important;
+  letter-spacing: -0.48px;
+}
+
+/*-------------------------------------
+  4. Page CSS
+--------------------------------------*/
+.newjeanse-homepage {
+  background-color: var(--white_a700);
+  width: 100%;
+}
+
+.columnsouthkore {
+  background-color: var(--white_a700);
+}
+
+.homepagehomesec {
+    border: none; /* 테두리를 없앱니다 */
+    outline: none;
+    height: 974px;
+    background-color: var(--teal_50);
+    position: relative; /* 이 부분을 다시 복구 */
+    box-shadow: none; /* 그림자를 없앱니다 */
+}
+
+.columncontrast {
+    position: absolute;
+    top: 100px;
+    left: 1000px; /* 이 값을 조정하여 원하는 만큼 왼쪽으로 이동 */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* 왼쪽 정렬 */
+}
+
+
+
+/* Header 스타일 수정 */
+.homepageheader {
+    display: flex;
+    background-color: var(--blue_800_70);
+    box-shadow: inset 0 4px 4px 0 #0000003f;
+    align-self: stretch;
+    align-items: center;
+    z-index: 1000; /* 헤더가 다른 요소 위에 오도록 보장 */
+    position: fixed; /* 헤더를 화면 상단에 고정 */
+    width: 100%; /* 헤더가 화면 전체에 걸쳐 있게 설정 */
+    top: 0; /* 화면 상단에 위치하도록 설정 */
+    height: 80px; /* 헤더의 높이를 설정 */
+}
+
+.row {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1414px;
+  margin-left: auto;
+  margin-right: auto;
+  gap: 20px;
+}
+
+.rowcontrast_one {
+  display: flex;
+  align-items: center; /* 로고와 텍스트를 y축 중앙에 배치 */
+}
+
+.contrast_five {
+  margin-right: 8px; /* 로고와 텍스트 사이의 간격을 설정 */
+}
+
+.newjeanse_three {
+  display: flex;
+  align-items: center; /* 텍스트가 로고의 y축 중앙에 위치하도록 설정 */
+  font-weight: 500 !important;
+  letter-spacing: -0.48px;
+}
+
+
+.logoText {
+  font-family: 'GmarketSansBold', sans-serif; /* 지정된 폰트 적용 */
+  font-size: 24px; /* 텍스트 크기를 더 크게 조정 */
+  font-weight: bold; /* 폰트 굵기 설정 */
+  letter-spacing: -0.48px;
+  display: flex;
+  align-items: center; /* 로고 이미지의 y축 중앙에 텍스트를 정렬 */
+}
+
+.homepagebuttonl {
+  display: flex;
+  gap: 16px;
+  /* 네 개의 버튼을 한 줄로 배치하고 버튼들 간의 간격을 설정 */
+}
+
+.homepagebutton,
+.homepagebutton1,
+.homepagebutton2 {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  /* 각 버튼의 기본 스타일 설정: 배경색과 테두리를 제거하고 클릭 가능하도록 커서 스타일 변경 */
+}
+
+.buttonText {
+  white-space: nowrap;
+  margin: 0;
+  font-size: 16px; /* 텍스트 크기 설정 */
+}
+
+.homepagebutton-1 {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: var(--space-sm);
+}
+
+.button-7 {
+  width: 44px;
+  display: flex;
+  justify-content: center;
+  border-radius: var(--radius-md);
+}
+
+.logo-1 {
+    margin-top: 242px;
+    margin-left: 0px; /* 왼쪽 여백을 0으로 설정 */
+    margin-right: 0px; /* 오른쪽 여백을 0으로 설정 */
+    gap: 17px;
+    align-self: stretch;
+    display: flex;
+    justify-content: flex-start; /* 왼쪽 정렬 */
+    align-items: center;
+    padding: 12px var(--space-xs);
+}
+
+
+
+.contrast_three {
+  height: 44px;
+}
+
+.class-__ {
+    color: var(--gray_900_cc) !important;
+    margin-top: 16px;
+    margin-left: 0px; /* 왼쪽 여백을 0으로 설정 */
+    margin-right: auto; /* 오른쪽 여백 자동 */
+    letter-spacing: -1px;
+    width: 36%;
+    line-height: 53px;
+}
+
+
+.class--span {
+  color: var(--gray_900_cc);
+}
+
+.class--span-1 {
+  color: var(--blue_600);
+  font-weight: 400;
+}
+
+.button-1 {
+    margin-top: 48px;
+    margin-left: 0px; /* 왼쪽 여백을 0으로 설정 */
+    margin-right: auto;
+    width: 22%;
+    display: flex;
+    justify-content: flex-start; /* 왼쪽 정렬 */
+    border-radius: var(--radius-md);
+}
+
+.logo1 {
+    margin-bottom: 30px; /* 이 값을 추가하여 아래 요소와의 간격을 70px로 설정 */
+}
+
+
+
+.statelayer {
+    margin-top: 50px; 
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* 왼쪽 정렬 */
+}
+
+
+.homepagekeyfeat {
+  background-color: var(--teal_50);
+  display: flex;
+  justify-content: center;
+  padding: 98px 56px;
+}
+
+.keyfeaturesContent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px; /* 지도와 기능 설명들 사이의 간격 */
+}
+
+.mapContainer {
+    position: relative;
+    width: 100%;
+    height: auto;
+}
+
+.mapCenter {
+    display: block;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+    transform: translateX(70px); /* 지도를 오른쪽으로 이동 */
+}
+
+.iconGroup {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+}
+
+.iconItem {
+    position: absolute;
+    width: 180px; /* 아이콘과 텍스트의 크기에 맞게 조정 */
+    text-align: center;
+}
+
+.iconItem:nth-child(1) {
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.iconItem:nth-child(2) {
+    top: 30%;
+    left: 85%;
+    transform: translate(-50%, -50%);
+}
+
+.iconItem:nth-child(3) {
+    top: 70%;
+    left: 85%;
+    transform: translate(-50%, -50%);
+}
+
+.iconItem:nth-child(4) {
+    top: 90%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.iconItem:nth-child(5) {
+    top: 70%;
+    left: 15%;
+    transform: translate(-50%, -50%);
+}
+
+.iconItem:nth-child(6) {
+    top: 30%;
+    left: 15%;
+    transform: translate(-50%, -50%);
+}
+
+.featuresLeft, .featuresRight {
+    display: flex;
+    flex-direction: column;
+    gap: 40px; /* 각 기능 설명들 사이의 간격 */
+}
+
+.featureItem {
+    text-align: center;
+}
+
+.keyfeatureshead {
+  margin-bottom: 158px;
+  width: 92%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.previewbodylist {
+  margin-bottom: 16px;
+  margin-left: auto;
+  margin-right: auto;
+  gap: 16px; /* 이미지 간의 간격 */
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1000px; /* 이미지 슬라이스의 최대 너비를 1000px로 설정 */
+}
+
+.tablist {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  position: absolute;
+  bottom: 30px; /* 이미지 슬라이스 중앙 아래에 위치 */
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.tab1ofthreeOne {
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    background-color: var(--gray_400);
+    margin: 0 4px;
+}
+
+.tab2ofthreeOne {
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    background-color: var(--blue_600);
+    margin: 0 4px;
+}
+
+.tab1ofthree_one {
+  height: 1px;
+  margin-top: 6px;
+  background-color: var(--gray_900_4c);
+  width: 12px;
+  border-radius: var(--radius-xs);
+}
+
+.tab2ofthree_one {
+  height: 1px;
+  margin-top: 6px;
+  background-color: var(--blue_800);
+  width: 12px;
+  border-radius: var(--radius-xs);
+}
+
+.class-_one {
+  color: var(--black_900) !important;
+  letter-spacing: -0.48px;
+}
+
+.description {
+  color: var(--gray_700) !important;
+  margin-top: 12px;
+  letter-spacing: -0.48px;
+  text-align: center;
+  line-height: 28px;
+}
+
+.stack_ {
+  height: 534px;
+  margin-top: 64px;
+  margin-left: auto;
+  align-self: stretch;
+  position: relative;
+  align-content: center;
+  max-width: 1176px;
+  width: 100%;
+  margin-right: auto;
+}
+
+.row_ {
+  flex: 1;
+  display: flex;
+  align-items: start;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.column_-1 {
+  align-self: center;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+}
+
+.keyfeatureimage-2 {
+  margin-right: 100px;
+  z-index: 4;
+  background-color: var (--white_a700);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-sm);
+  border-radius: var(--radius-2xl);
+  border: 1px solid var(--black_900);
+}
+
+.row_-1 {
+  margin-top: -70px;
+  position: relative;
+  align-self: stretch;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.column_-2 {
+  margin-bottom: 178px;
+  gap: 2px;
+  z-index: 3;
+  align-self: end;
+  display: flex;
+  width: 22%;
+  position: relative;
+  flex-direction: column;
+  align-items: end;
+}
+
+.class-11 {
+  color: var(--gray_700) !important;
+  letter-spacing: -0.54px;
+  text-align: right;
+  width: 100%;
+  line-height: 22px;
+}
+
+.row__ {
+  margin-left: -264px;
+  position: relative;
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: start;
+}
+
+.keyfeaturecomme {
+  margin-top: 126px;
+  gap: var(--space-xs);
+  z-index: 2;
+  display: flex;
+  width: 36%;
+  position: relative;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+}
+
+.class-__-1 {
+  margin-left: 44px;
+  letter-spacing: -0.48px;
+}
+
+.class-12 {
+  color: var(--gray_700) !important;
+  letter-spacing: -0.54px;
+  text-align: right;
+  width: 74%;
+  line-height: 22px;
+}
+
+.rowsettings_one {
+  margin-left: -60px;
+  position: relative;
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: start;
+}
+
+.keyfeatureimage-3 {
+  margin-top: 126px;
+  z-index: 1;
+  background-color: var(--white_a700);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-sm);
+  border-radius: var(--radius-2xl);
+  border: 1px solid var(--black_900);
+}
+
+.southkoreamap {
+  max-width: 100%;
+  height: auto;
+  border: none; /* 테두리를 없앱니다 */
+  outline: none; /* 이미지 주위의 윤곽선을 없앱니다 */
+  display: block; /* 이미지를 블록 요소로 설정하여 주변 간격을 없앱니다 */
+  margin: 0; /* 이미지 주위의 여백을 없앱니다 */
+  padding: 0; /* 이미지 주위의 패딩을 없앱니다 */
+}
+
+
+.southkoreamapfr {
+  margin-left: -14px;
+  align-self: center;
+  position: relative;
+  background-color: var(--white_a700);
+  flex: 1;
+}
+
+.southkoreamap-1 {
+  height: 526px;
+  gap: 56px;
+  background-color: var(--teal_50);
+  box-shadow: var(--shadow-xs);
+  background-image: url('/images/img_southkoreamap_blue_800.svg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  padding: 126px 66px 126px 56px;
+}
+
+.keyfeatureimage-4 {
+  background-color: var(--white_a700);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-sm);
+  border-radius: var (--radius-2xl);
+  border: 1px solid var(--black_900);
+}
+
+.keyfeatureimage-5 {
+  margin-bottom: 54px;
+  background-color: var(--white_a700);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-sm);
+  border-radius: var(--radius-2xl);
+  border: 1px solid var(--black_900);
+}
+
+.column-1 {
+  margin-left: -70px;
+  position: relative;
+  width: 24%;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
+.class-3 {
+  color: var(--gray_700) !important;
+  margin-top: 6px;
+  letter-spacing: -0.54px;
+  width: 66%;
+  line-height: 22px;
+}
+
+.class-___-2 {
+  margin-top: 56px;
+  margin-left: 34px;
+  letter-spacing: -0.48px;
+}
+
+.class-4 {
+  color: var(--gray_700) !important;
+  margin-top: 8px;
+  letter-spacing: -0.54px;
+  align-self: end;
+  line-height: 22px;
+}
+
+.class-___-3 {
+  margin-top: 56px;
+  margin-right: 10px;
+  letter-spacing: -0.48px;
+  align-self: end;
+}
+
+.class-5 {
+  color: var(--gray_700) !important;
+  margin-top: 6px;
+  letter-spacing: -0.54px;
+  align-self: end;
+  width: 88%;
+  line-height: 22px;
+}
+
+.column_ {
+  gap: var(--space-xs);
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  position: absolute;
+  left: 24px;
+  top: 1.11px;
+  margin: auto;
+}
+
+.class-___-1 {
+  color: var(--blue_700) !important;
+  letter-spacing: -0.48px;
+  font-weight: 500 !important;
+}
+
+.class-1 {
+  color: var(--gray_700) !important;
+  letter-spacing: -0.54px;
+  text-align: right;
+  line-height: 22px;
+}
+
+.keyfeatureimage {
+  background-color: var(--white_a700);
+  display: flex;
+  position: absolute;
+  left: 25%;
+  top: 0.1px;
+  padding: var(--space-sm);
+  margin: auto;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--black_900);
+}
+
+.keyfeatureimage-1 {
+  background-color: var(--white_a700);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  bottom: 34%;
+  left: 25%;
+  padding: var(--space-sm);
+  margin: auto;
+  border-radius: var(--radius-2xl);
+  border: 1px solid var(--black_900);
+}
+
+.homepagepreview {
+  gap: 8px;
+  z-index: 5;
+  background-color: var(--teal_50);
+  position: relative;
+  padding: 94px 56px;
+}
+
+.previewheader {
+  gap: var(--space-sm);
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  margin-bottom: 30px; /* 텍스트와 이미지 슬라이스 컨테이너 사이에 30px 간격 추가 */
+}
+
+.class-__one {
+  margin-left: 6px;
+  letter-spacing: -0.48px;
+}
+
+.previewbuttonim {
+  height: 28px;
+  border-top-left-radius: var(--radius-lg);
+  border-top-right-radius: var(--radius-lg);
+  object-fit: cover;
+  width: 100%;
+}
+
+.previewimagelis {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex: 1;
+  height: 400px; /* 이미지 높이를 400px로 고정 */
+}
+
+.previewimagebod {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  width: calc(100% - 200px); /* 양쪽 버튼의 여백을 제외한 나머지 공간 */
+  margin-left: 100px; /* 원하는 만큼 오른쪽으로 이동 */
+}
+
+.tab2ofthree_one {
+  height: 1px;
+  margin-top: 6px;
+  background-color: var(--blue_800);
+  width: 12px;
+  border-radius: var(--radius-xs);
+}
+
+.previewbuttonim-1 {
+  height: 28px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.homepagefooters {
+  background-color: var(--white_a700);
+  display: flex;
+  justify-content: space-between; /* 텍스트와 로고 사이의 공간을 균등하게 배분 */
+  padding: 58px 56px;
+  align-items: center; /* 수직 정렬을 중앙으로 맞춤 */
+  height: 200px; /* 흰색 영역의 높이를 늘려서 모든 텍스트가 포함되도록 설정 */
+}
+
+.logo {
+  width: auto;
+  height: 44px;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.logo-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.3s;
+}
+
+.logo-button:hover {
+  background-color: #4E8AD8;
+}
+
+.column {
+  gap: var(--space-xs);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* 텍스트를 왼쪽 정렬 */
+  flex: 1; /* 텍스트가 로고와 동일한 비율로 공간을 차지하도록 설정 */
+  text-align: left; /* 텍스트들을 왼쪽 정렬 */
+}
+
+
+.footerinfobutto {
+  align-self: stretch;
+  display: flex;
+}
+
+.footerinfobutto .statelayer1 {
+  margin-right: 5px; /* 각 텍스트 사이에 5px 간격을 추가 */
+}
+
+.footerContainer {
+  background-color: var(--white_a700); /* 흰색 배경 */
+  padding: 20px; /* 적당한 패딩을 추가 */
+}
+
+.footerContent {
+  display: flex;
+  justify-content: space-between; /* 텍스트와 로고를 양쪽 끝에 배치 */
+  align-items: center; /* 수직으로 가운데 정렬 */
+  max-width: 1200px; /* 전체 넓이 조절 */
+  margin: 0 auto; /* 가운데 정렬 */
+}
+
+.button-4 {
+  width: 22%;
+  display: flex;
+  border-radius: var(--radius-sm);
+}
+
+.homepageaddress {
+  gap: 10px;
+  display: flex;
+  align-self: stretch;
+  flex-direction: column;
+}
+
+.rownewjeanse {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.rownewjeanse p {
+  margin-right: 5px; /* 각 텍스트 사이에 5px 간격을 추가 */
+}
+
+.class-_ {
+  color: var(--gray_400) !important;
+  margin-left: 34px;
+  letter-spacing: -0.48px;
+}
+
+.class-_-1 {
+  color: var(--gray_400) !important;
+  margin-left: 26px;
+  letter-spacing: -0.48px;
+}
+
+.one {
+  color: var(--gray_400) !important;
+  margin-left: 38px;
+  letter-spacing: -0.48px;
+}
+
+.ksebthree {
+  color: var(--gray_400) !important;
+  margin-left: 12px;
+  letter-spacing: -0.48px;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.copyright {
+  color: var(--gray_400) !important;
+  margin-left: 6px;
+  letter-spacing: -0.48px;
+}
+
+.rowcontrast {
+  display: flex;
+  align-items: center;
+  margin-left: auto; /* 오른쪽으로 밀어내기 위해 'auto'로 설정 */
+  padding-right: 30px; /* 오른쪽 여백을 추가 */
+}
+
+.contrastFive {
+  margin-right: 20px; /* 로고와 텍스트 사이의 간격 조절 */
+}
+
+.footerinfobutto,
+.homepageaddress {
+  white-space: nowrap; /* 텍스트를 한 줄로 표시 */
+}
+
+.copyright {
+  white-space: nowrap; /* 텍스트를 한 줄로 표시 */
+}
+
+/*-------------------------------------
+  5. Component Styles (헤더, 버튼 등)
+--------------------------------------*/
+/* 추가된 스타일 */
+.fixed-navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: var(--white_a700);
+  z-index: 1000;
+  box-shadow: var(--shadow-xs);
+  padding: var(--space-xs) var(--space-sm);
+}
+
+.homepagebutton div,
+.homepagebutton1 div,
+.homepagebutton2 div {
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.homepagebutton div:hover,
+.homepagebutton1 div:hover,
+.homepagebutton2 div:hover {
+  background-color: var(--blue_600);
+  color: var(--white_a700);
+}
+
+/*-------------------------------------
+  6. Modal Styles
+--------------------------------------*/
+.modal {
+  display: none; 
+  position: fixed; 
+  z-index: 1; 
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%; 
+  overflow: auto; 
+  background-color: rgb(0,0,0); 
+  background-color: rgba(0,0,0,0.4); 
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; 
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; 
+  max-width: 400px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/*-------------------------------------
+  7. Text & Heading Styles
+--------------------------------------*/
+/* Text Styles */
+
+.textButton {
+  background: none; /* 배경 제거 */
+  border: none; /* 테두리 제거 */
+  color: inherit; /* 기존 텍스트 색상 유지 */
+  cursor: pointer; /* 클릭 가능하게 표시 */
+  padding: 0; /* 패딩 제거 */
+  margin-right: 5px; /* 마지막 텍스트와 간격 맞추기 */
+}
+
+.ui.text.size-textxs {
+  font-size: 16px;
+  font-weight: 300;
+  font-style: bold;
+}
+
+.ui.text.size-texts {
+  font-size: 20px;
+  font-weight: 300;
+  font-style: bold;
+}
+
+.ui.text.size-textmd {
+  font-size: 21px;
+  font-weight: 400;
+  font-style: bold;
+}
+
+.ui.text.size-textlg {
+  font-size: 22px;
+  font-weight: 400;
+  font-style: bold;
+}
+
+.ui.text.size-text2xl {
+  font-size: 34px;
+  font-weight: 300;
+  font-style: bold;
+}
+
+.ui.text {
+  color: var(--gray_900);
+  font-family: Gmarket Sans;
+}
+
+/* Heading Styles */
+.ui.heading.size-textxl {
+  font-size: 32px;
+  font-weight: 500;
+  font-style: bold;
+}
+
+.ui.heading.size-text3xl {
+  font-size: 40px;
+  font-weight: 500;
+  font-style: bold;
+}
+
+.ui.heading {
+  color: var(--gray_900);
+  font-family: Gmarket Sans;
+}

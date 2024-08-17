@@ -113,7 +113,7 @@ const SimulationHeaderBar: React.FC<{
 						width={20}
 						height={20}
 					/>
-					우리 집 전기 요금 예측하기
+					우리 집 전기 요금 기록하기
 				</button>
 			</div>
 
