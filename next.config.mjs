@@ -1,3 +1,4 @@
+// next.config.mjs
 import transpileModules from 'next-transpile-modules';
 
 const withTM = transpileModules(['recharts']);
@@ -18,6 +19,14 @@ const nextConfig = {
 	},
 	images: {
 		domains: ['localhost'], // 외부 이미지 호스트 허용
+	},
+	rewrites: async () => {
+		return [
+			{
+				source: '/api/:path*',
+				destination: 'https://ce67-35-193-212-129.ngrok-free.app/:path*',
+			},
+		];
 	},
 };
 

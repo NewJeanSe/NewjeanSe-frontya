@@ -4,8 +4,8 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 import styles from '@/styles/mainMap/mainMap.module.css';
 import SimulationHeaderBar from '@/components/simulation/simulationHeaderBar';
-import SideBar from '@/components/mainMap/sideBar';
 import { getFavorites } from '@/lib/api';
+import SimulationSideBar from '@/components/simulation/simulationSideBar';
 
 const KakaoMap = dynamic(() => import('../components/mainMap/kakaoMap'), {
 	ssr: false,
@@ -63,7 +63,7 @@ const UserSimulation: React.FC = () => {
 				onToggleSidebar={toggleSidebarVisibility}
 				isSidebarVisible={isSidebarVisible}
 			/>
-			{isSidebarVisible && <SideBar />}
+			{isSidebarVisible && <SimulationSideBar />}
 			<div id="map-container" className={styles.mapContainer}>
 				<KakaoMap
 					pageType="userSimulation"

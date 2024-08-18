@@ -1,55 +1,39 @@
 {
   "favorites": [
     {
-      "polygonId": "42810",
-      "name": "인제군",
+      "polygonId": "42830",
+      "name": "강원도 양양",
       "isFavorite": true
     },
     {
-      "polygonId": "42720",
-      "name": "홍천군",
-      "isFavorite": false
-    },
-    {
-      "polygonId": "42800",
-      "name": "양구군",
+      "polygonId": "11110",
+      "name": "서울특별시 종로",
       "isFavorite": true
     },
     {
-      "polygonId": "41820",
-      "name": "가평군",
-      "isFavorite": true
-    },
-    {
-      "polygonId": "42790",
-      "name": "화천군",
+      "polygonId": "41135",
+      "name": "경기도 성남",
       "isFavorite": true
     }
   ],
   "districts": [
     {
-      "id": "41820",
-      "name": "가평군",
-      "createdDate": "2024-08-16",
-      "updatedDate": "2024-08-16"
+      "id": "11110",
+      "name": "서울특별시 종로",
+      "createdDate": "2024-08-18",
+      "updatedDate": "2024-08-18"
     },
     {
-      "id": "42790",
-      "name": "화천군",
-      "createdDate": "2024-08-16",
-      "updatedDate": "2024-08-16"
+      "id": "41135",
+      "name": "경기도 성남",
+      "createdDate": "2024-08-18",
+      "updatedDate": "2024-08-18"
     },
     {
-      "id": "42800",
-      "name": "양구군",
-      "createdDate": "2024-08-16",
-      "updatedDate": "2024-08-16"
-    },
-    {
-      "id": "42810",
-      "name": "인제군",
-      "createdDate": "2024-08-17",
-      "updatedDate": "2024-08-17"
+      "id": "42830",
+      "name": "강원도 양양",
+      "createdDate": "2024-08-18",
+      "updatedDate": "2024-08-18"
     }
   ],
   "bills": [
