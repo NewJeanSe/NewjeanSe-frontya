@@ -68,7 +68,7 @@ const SideBar: React.FC = () => {
 			<div className={styles.content}>
 				<div className={styles.section}>
 					<div className={styles.sectionHeader}>
-						실시간 전국 전력 수요 예측 차트
+						실시간 전국 전력 데이터 예측 차트
 					</div>
 					<div className={styles.sectionContent}>
 						<ElectricDemandChart />
