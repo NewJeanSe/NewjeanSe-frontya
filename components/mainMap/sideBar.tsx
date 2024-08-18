@@ -74,16 +74,6 @@ const SideBar: React.FC = () => {
 						<ElectricDemandChart />
 					</div>
 				</div>
-				{[...Array(5)].map((_, index) => (
-					<div key={index} className={styles.section}>
-						<div className={styles.sectionHeader}>Section {index + 2}</div>
-						<div className={styles.sectionContent}>
-							<div className={styles.chartPlaceholder}>
-								Chart space for section {index + 2}
-							</div>
-						</div>
-					</div>
-				))}
 			</div>
 		</div>
 	);
