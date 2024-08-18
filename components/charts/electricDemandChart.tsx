@@ -37,6 +37,8 @@ const ElectricDemandChart: React.FC = () => {
 	const [showSupplyCapacity, setShowSupplyCapacity] = useState(true);
 	const [showSupplyReservePower, setShowSupplyReservePower] = useState(true);
 	const [showSupplyReserveRate, setShowSupplyReserveRate] = useState(true);
+	const [currentTime, setCurrentTime] = useState<string>('');
+	const [currentDate, setCurrentDate] = useState<string>('');
 
 	const fetchData = async () => {
 		try {
@@ -72,20 +74,41 @@ const ElectricDemandChart: React.FC = () => {
 		};
 	}, []);
 
+	useEffect(() => {
+		const updateTime = () => {
+			setCurrentTime(new Date().toLocaleTimeString());
+			setCurrentDate(
+				new Date().toLocaleDateString('ko-KR', {
+					year: 'numeric',
+					month: 'long',
+					day: 'numeric',
+				}),
+			);
+		};
+
+		updateTime(); // 페이지 로드 시 즉시 시간을 업데이트
+
+		const timeInterval = setInterval(updateTime, 1000); // 매초 시간 업데이트
+
+		return () => {
+			clearInterval(timeInterval);
+		};
+	}, []);
+
 	// 최대부하전망 단계 계산 함수
 	const getMaxLoadForecastStage = (supplyReservePower: number) => {
 		if (supplyReservePower >= 5500) {
-			return { stage: '정상', color: 'green' };
+			return { stage: '정상', color: 'black' };
 		} else if (supplyReservePower >= 4500) {
-			return { stage: '준비', color: 'blue' };
+			return { stage: '준비', color: 'green' };
 		} else if (supplyReservePower >= 3500) {
-			return { stage: '관심', color: 'yello' };
+			return { stage: '관심', color: 'blue' };
 		} else if (supplyReservePower >= 2500) {
-			return { stage: '주의', color: 'orange' };
+			return { stage: '주의', color: 'yellow' };
 		} else if (supplyReservePower >= 1500) {
-			return { stage: '경계', color: 'red' };
+			return { stage: '경계', color: 'orange' };
 		} else {
-			return { stage: '심각', color: 'black' };
+			return { stage: '심각', color: 'red' };
 		}
 	};
 
@@ -103,16 +126,9 @@ const ElectricDemandChart: React.FC = () => {
 		currentSupplyReservePower,
 	);
 
-	const currentTime = new Date().toLocaleTimeString();
-	const currentDate = new Date().toLocaleDateString('ko-KR', {
-		year: 'numeric',
-		month: 'long',
-		day: 'numeric',
-	});
-
 	return (
 		<div>
-			<ResponsiveContainer width="100%" height={500}>
+			<ResponsiveContainer width={750} height={590}>
 				<LineChart
 					data={chartData}
 					margin={{
