@@ -37,19 +37,20 @@ const SignUpPage = () => {
 	const closeModal = () => setModalOpen(false);
 
 	useEffect(() => {
+		// 회원 가입 관련 간이 로직 시작
 		const validateForm = () => {
 			// 아이디 유효성 검사
 			if (username.length >= 6) {
 				setErrorMessage(prev => ({
 					...prev,
 					username: '올바른 아이디 형식입니다',
-					usernameStyle: styles.successmessage,
+					usernameStyle: styles.successmessage, // 성공하면 css가 적용이 되야 해.
 				}));
 			} else if (username.length > 0) {
 				setErrorMessage(prev => ({
 					...prev,
 					username: '잘못된 형식입니다',
-					usernameStyle: styles.errormessage,
+					usernameStyle: styles.errormessage, // 실패하면 css가 적용이 되야 해.
 				}));
 			} else {
 				setErrorMessage(prev => ({
@@ -138,7 +139,7 @@ const SignUpPage = () => {
 			} else {
 				setErrorMessage(prev => ({
 					...prev,
-					emailCode: '이메일 인증코드를 입력해주세요',
+					emailCode: '이메일 인증코드를 입력해주세요', // 빡세면 이것만 해.
 					emailCodeStyle: styles.errormessage,
 				}));
 			}
@@ -177,6 +178,7 @@ const SignUpPage = () => {
 			alert('모든 필드를 올바르게 입력해주세요.');
 		}
 	};
+	// 회원 가입 관련 간이 로직 끝
 
 	return (
 		<div className={styles.columncontrast}>

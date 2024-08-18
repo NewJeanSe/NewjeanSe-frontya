@@ -1,4 +1,4 @@
-// lib/javaApi.ts
+// lib/api.ts
 
 export const callEmailVerificationApi = async () => {
 	try {
