@@ -96,6 +96,33 @@
   color: var(--blue_600);
 }
 
+.forgotLink {
+  text-align: right;
+  white-space: nowrap; /* 텍스트가 줄바꿈 되지 않도록 함 */
+  color: var(--blue_600);
+  text-decoration: underline;
+  margin-left: auto; /* 공간 확보 */
+  flex-grow: 1; /* 남은 공간 차지 */
+}
+
+/* 아이디 저장 체크박스와 텍스트 한 줄 표시 */
+.saveUsername {
+  display: flex;
+  align-items: center;
+  width: auto; /* 텍스트와 체크박스 간의 거리 최소화 */
+  margin-right: auto; /* 오른쪽으로 공간 확보 */
+}
+
+.saveUsername span {
+  margin-right: 5px; /* 텍스트와 체크박스 간의 거리 최소화 */
+  white-space: nowrap; /* 텍스트가 줄바꿈 되지 않도록 함 */
+}
+
+.saveUsername input {
+  margin-left: 5px;
+}
+
+
 .forgot-link {
   margin-top: var(--space-xs);
 }
@@ -103,7 +130,8 @@
 .passwordhide {
   display: flex;
   align-items: center;
-  margin-top: var(--space-xs);
+  gap: 8px;
+  font-size: 16px;
 }
 
 .passwordhide .hide {
@@ -125,7 +153,14 @@
 }
 
 .or {
-  color: var(--gray_700) !important;
+  padding: 0 10px;
+}
+
+.edittext1 {
+  width: 100%;
+  padding: 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--gray_700_59);
 }
 
 .edittext-1 {
@@ -158,17 +193,31 @@
 /*-------------------------------------
   2. Page CSS
 --------------------------------------*/
+/* 로그인 페이지 전체 레이아웃 */
+.newjeanseLoginpage {
+  background-color: var(--teal_50); /* 배경색 조정 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
 .newjeanse-loginpage {
   background-color: var(--white_a700);
   width: 100%;
 }
 
+/* 로그인 섹션 */
 .loginsection {
-  background-color: var(--teal_50);
+  background-color: var(--white_a700);
+  width: 90%;
+  max-width: 1400px;
+  height: 90vh;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  padding: 70px 56px;
+  padding: 40px;
+  border: 1px solid var(--gray_300);
 }
 
 @media only screen and (max-width: 1050px) {
@@ -179,15 +228,26 @@
 }
 
 .columncontrast {
-  margin-bottom: 14px;
-  padding-left: var(--space-xs);
-  padding-right: var(--space-xs);
-  align-self: end;
-  width: 42%;
+  width: 45%;
   display: flex;
   flex-direction: column;
-  align-items: start;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
 }
+
+.contrastOne {
+  margin-bottom: 20px; /* 로고와 아래 텍스트 사이의 간격 */
+}
+
+h1.newjeanse {
+  margin-bottom: 20px; /* 로고 텍스트와 본문 사이의 간격 */
+}
+
+p.ui.text.size-textxl {
+  margin-bottom: 20px; /* 본문과 광고 섹션 사이의 간격 */
+}
+
 
 @media only screen and (max-width: 1050px) {
   .columncontrast {
@@ -263,6 +323,10 @@
   background-color: var(--white_a700);
   width: 446px;
   border: 1px solid var(--black_900);
+  height: 270px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .electricko {
@@ -272,18 +336,24 @@
   line-height: 34px;
 }
 
+/* 로그인 폼 영역 */
 .columndivider {
-  gap: 48px;
+  width: 45%;
   display: flex;
-  width: 50%;
   flex-direction: column;
-  align-items: end;
+  justify-content: center;
 }
 
 @media only screen and (max-width: 1050px) {
   .columndivider {
     width: 100%;
   }
+}
+
+.column1 {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .columndivider-1 {
@@ -378,11 +448,22 @@
 }
 
 .divider {
-  margin-right: 12px;
-  gap: var(--space-lg);
+  width: 1px;
+  background-color: var(--gray_300);
+  height: 100%; /* 부모 요소 높이의 100% */
+  margin: 0 20px; /* 좌우 여백 */
+}
+
+.dividerOne {
+  flex: 1;
+  height: 2px;
+  background-color: var(--gray_700_3f);
+}
+
+.dividerWrapper {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 }
 
 @media only screen and (max-width: 1050px) {
@@ -450,6 +531,11 @@
   align-items: start;
 }
 
+.iconOne {
+  width: 16px;
+  height: 16px;
+}
+
 .icon_one {
   height: 24px;
   align-self: end;
@@ -460,7 +546,7 @@
   color: var(--gray_700_cc) !important;
 }
 
-.-2 {
+.class-2 {
   color: var(--blue_gray_900);
   padding-top: 8px;
   padding-bottom: var(--space-md);
@@ -504,8 +590,7 @@
 }
 
 .class-__ {
-  margin-right: 152px;
-  font-weight: 400 !important;
+  text-align: center;
 }
 
 @media only screen and (max-width: 1050px) {
@@ -540,4 +625,95 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
+}
+
+.flexRowCenterCenter1 {
+  background-color: #FFD700; /* 카카오 노란색 */
+  color: #3c1e1e;
+  font-size: 18px;
+  display: flex;
+  border-radius: var(--radius-sm);
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+}
+
+.flexRowCenterCenter2 {
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  font-size: 18px;
+}
+
+.flexRowCenterCenter1 img,
+.flexRowCenterCenter2 img {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}
+
+.buttonKakao {
+    background-color: #FFD700; /* 노란색 */
+    color: #000;
+}
+
+.animatedButton {
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.animatedButton:hover {
+    transform: translateY(-2px);
+    background-color: #333;
+}
+
+.flexRowCenterCenter1 {
+  background-color: #f7e600; /* 카카오 노란색 */
+  color: #3c1e1e;
+}
+
+.flexRowCenterCenter2 {
+  background-color: #1ec800; /* 네이버 그린 */  
+  color: white;
+}
+
+/* 로그인 버튼 */
+.flexRowCenterCenter3 {
+  width: 100%;
+  background-color: var(--gray_500);
+  color: var(--white_a700);
+  text-align: center;
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.flexRowCenterCenter3:hover {
+  background-color: var(--gray_600);
+}
+
+/* 회원 가입 버튼 */
+.flexRowCenterCenter4 {
+  width: 100%;
+  background-color: transparent;
+  color: var(--black_900);
+  border: 2px solid var(--black_900);
+  text-align: center;
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.flexRowCenterCenter4:hover {
+  background-color: var(--gray_200);
+}
+
+.dividerFive {
+  height: 2px;
+  background-color: var(--gray_700_3f);
+  width: 100%;
+  margin: 20px 0;
 }
