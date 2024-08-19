@@ -17,6 +17,7 @@ interface DataPoint {
 	supply_capacity: number;
 	supply_reserve_power: number;
 	supply_reserve_rate: number;
+	max_predicted_demand: number;
 }
 
 const formatTime = (dateString: string) => {
@@ -25,7 +26,7 @@ const formatTime = (dateString: string) => {
 	const minutes = date.getMinutes();
 	const ampm = hours >= 12 ? 'PM' : 'AM';
 	hours = hours % 12;
-	hours = hours ? hours : 12; // the hour '0' should be '12'
+	hours = hours ? hours : 12;
 	const strMinutes = minutes < 10 ? '0' + minutes : minutes.toString();
 	const strTime = `${hours}:${strMinutes} ${ampm}`;
 	return strTime;
@@ -37,6 +38,7 @@ const ElectricDemandChart: React.FC = () => {
 	const [showSupplyCapacity, setShowSupplyCapacity] = useState(true);
 	const [showSupplyReservePower, setShowSupplyReservePower] = useState(true);
 	const [showSupplyReserveRate, setShowSupplyReserveRate] = useState(true);
+	const [showMaxPredictedDemand, setShowMaxPredictedDemand] = useState(true);
 	const [currentTime, setCurrentTime] = useState<string>('');
 	const [currentDate, setCurrentDate] = useState<string>('');
 
@@ -51,6 +53,7 @@ const ElectricDemandChart: React.FC = () => {
 				supply_capacity: item.supply_capacity,
 				supply_reserve_power: item.supply_reserve_power,
 				supply_reserve_rate: item.supply_reserve_rate,
+				max_predicted_demand: item.max_predicted_demand,
 			}));
 
 			setChartData(formattedData);
@@ -86,16 +89,15 @@ const ElectricDemandChart: React.FC = () => {
 			);
 		};
 
-		updateTime(); // 페이지 로드 시 즉시 시간을 업데이트
+		updateTime();
 
-		const timeInterval = setInterval(updateTime, 1000); // 매초 시간 업데이트
+		const timeInterval = setInterval(updateTime, 1000);
 
 		return () => {
 			clearInterval(timeInterval);
 		};
 	}, []);
 
-	// 최대부하전망 단계 계산 함수
 	const getMaxLoadForecastStage = (supplyReservePower: number) => {
 		if (supplyReservePower >= 5500) {
 			return { stage: '정상', color: 'black' };
@@ -112,7 +114,6 @@ const ElectricDemandChart: React.FC = () => {
 		}
 	};
 
-	// 최대전력 및 해당 시간 계산
 	const maxDemandData = chartData.reduce(
 		(max, item) => (item.current_demand > max.current_demand ? item : max),
 		{ datetime: '', current_demand: 0 },
@@ -176,6 +177,14 @@ const ElectricDemandChart: React.FC = () => {
 							name="공급 예비율"
 						/>
 					)}
+					{showMaxPredictedDemand && (
+						<Line
+							type="monotone"
+							dataKey="max_predicted_demand"
+							stroke="#FF0000" // 색상을 빨간색으로 변경하여 구분
+							name="최대 예측 수요"
+						/>
+					)}
 				</LineChart>
 			</ResponsiveContainer>
 			<div
@@ -220,7 +229,9 @@ const ElectricDemandChart: React.FC = () => {
 					/>
 					공급 예비 전력
 				</label>
-				<label style={{ display: 'flex', alignItems: 'center' }}>
+				<label
+					style={{ display: 'flex', alignItems: 'center', marginRight: '10px' }}
+				>
 					<input
 						type="checkbox"
 						checked={showSupplyReserveRate}
@@ -228,6 +239,17 @@ const ElectricDemandChart: React.FC = () => {
 						style={{ marginRight: '5px' }}
 					/>
 					공급 예비율
+				</label>
+				<label
+					style={{ display: 'flex', alignItems: 'center', marginRight: '10px' }}
+				>
+					<input
+						type="checkbox"
+						checked={showMaxPredictedDemand}
+						onChange={() => setShowMaxPredictedDemand(!showMaxPredictedDemand)}
+						style={{ marginRight: '5px' }}
+					/>
+					최대 예측 수요
 				</label>
 			</div>
 			<div

@@ -67,6 +67,16 @@
       "amountDue": 140,
       "powerUsage": 100,
       "imagePath": "http://localhost:5000/uploads/f9a2a3ba-50a8-4485-b7a3-8c8b6b3dea1f.png"
+    },
+    {
+      "id": "124d1e52-ff3d-4ad2-9cf5-d97b3077e421",
+      "name": "과제7.jpg",
+      "createdDate": "2024-08-19",
+      "updatedDate": "2024-08-19",
+      "dueDate": 1,
+      "amountDue": 1,
+      "powerUsage": 1,
+      "imagePath": "http://localhost:5000/uploads/b0fc0117-8365-45af-8883-bba6817760e2.jpg"
     }
   ]
 }
