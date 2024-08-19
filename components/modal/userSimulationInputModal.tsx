@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import styles from './userSimulationInputModal.module.css';
 import UserSimulationInputWarningModal from './userSimulationInputWarningModal';
-import UserSimulationResultModal from './userSimulationResultModal'; // 추가
 
 interface Payload {
 	year: number;
@@ -17,14 +16,11 @@ interface Payload {
 
 interface UserSimulationInputModalProps {
 	onClose: () => void;
-	onSimulationComplete: (result: any) => void;
 }
 
 const UserSimulationInputModal: React.FC<UserSimulationInputModalProps> = ({
 	onClose,
-	onSimulationComplete,
 }) => {
-	const router = useRouter();
 	const [year, setYear] = useState<string>('');
 	const [month, setMonth] = useState<string>('');
 	const [day, setDay] = useState<string>('');
@@ -36,8 +32,8 @@ const UserSimulationInputModal: React.FC<UserSimulationInputModalProps> = ({
 
 	const [showWarning, setShowWarning] = useState(false);
 	const [confirmed, setConfirmed] = useState(false);
-	const [showResult, setShowResult] = useState(false); // 결과 모달 표시 상태
-	const [simulationResult, setSimulationResult] = useState<any>(null); // 시뮬레이션 결과 저장
+
+	const router = useRouter();
 
 	const defaultValues: Payload = {
 		year: 2024,
@@ -130,13 +126,16 @@ const UserSimulationInputModal: React.FC<UserSimulationInputModalProps> = ({
 
 			const result = await response.json();
 			console.log('Simulation result:', result);
-			setSimulationResult(result); // 결과를 저장
-			setShowResult(true); // 결과 모달 표시
+
+			// 모달을 닫고 페이지 이동
+			onClose();
+			router.push({
+				pathname: '/userSimulation',
+				query: result,
+			});
 		} catch (error) {
 			console.error('Error:', error);
 			alert('데이터 전송에 실패했습니다. 다시 시도해 주세요.');
-		} finally {
-			onClose();
 		}
 	};
 
@@ -252,12 +251,6 @@ const UserSimulationInputModal: React.FC<UserSimulationInputModalProps> = ({
 				<UserSimulationInputWarningModal
 					onClose={handleWarningClose}
 					onConfirm={handleWarningConfirm}
-				/>
-			)}
-			{showResult && (
-				<UserSimulationResultModal
-					result={simulationResult}
-					onClose={() => setShowResult(false)}
 				/>
 			)}
 		</>

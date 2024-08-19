@@ -24,7 +24,7 @@ const nextConfig = {
 		return [
 			{
 				source: '/api/:path*',
-				destination: 'https://ce67-35-193-212-129.ngrok-free.app/:path*',
+				destination: 'https://40aa-34-106-10-150.ngrok-free.app/:path*',
 			},
 		];
 	},
