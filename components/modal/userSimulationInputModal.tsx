@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import styles from './userSimulationInputModal.module.css';
 import UserSimulationInputWarningModal from './userSimulationInputWarningModal';
+import UserSimulationResultModal from './userSimulationResultModal'; // 추가
 
 interface Payload {
 	year: number;
@@ -35,6 +36,8 @@ const UserSimulationInputModal: React.FC<UserSimulationInputModalProps> = ({
 
 	const [showWarning, setShowWarning] = useState(false);
 	const [confirmed, setConfirmed] = useState(false);
+	const [showResult, setShowResult] = useState(false); // 결과 모달 표시 상태
+	const [simulationResult, setSimulationResult] = useState<any>(null); // 시뮬레이션 결과 저장
 
 	const defaultValues: Payload = {
 		year: 2024,
@@ -47,15 +50,12 @@ const UserSimulationInputModal: React.FC<UserSimulationInputModalProps> = ({
 		temperature: 20,
 	};
 
-	// 숫자 검증 함수
 	const isNumeric = (value: string) => /^\d*$/.test(value);
 
-	// 범위 검증 함수
 	const isWithinRange = (value: number, min: number, max: number) =>
 		value >= min && value <= max;
 
 	const handleSubmit = () => {
-		// 입력된 값이 모두 숫자인지 확인
 		if (
 			!confirmed &&
 			[year, month, day, hour, minute, weekday, humidity, temperature].some(
@@ -66,7 +66,6 @@ const UserSimulationInputModal: React.FC<UserSimulationInputModalProps> = ({
 			return;
 		}
 
-		// 비어있는 필드가 있을 경우 경고 모달 표시
 		if (
 			[year, month, day, hour, minute, weekday, humidity, temperature].some(
 				value => value === '',
@@ -76,7 +75,6 @@ const UserSimulationInputModal: React.FC<UserSimulationInputModalProps> = ({
 			return;
 		}
 
-		// 범위 검증
 		const numericValues = {
 			year: parseInt(year) || defaultValues.year,
 			month: parseInt(month) || defaultValues.month,
@@ -117,7 +115,7 @@ const UserSimulationInputModal: React.FC<UserSimulationInputModalProps> = ({
 
 	const sendPayloadToPython = async (payload: Payload) => {
 		try {
-			console.log('Sending payload to Python:', payload); // 전송 전 데이터 확인
+			console.log('Sending payload to Python:', payload);
 			const response = await fetch('/api/predict', {
 				method: 'POST',
 				headers: {
@@ -132,13 +130,13 @@ const UserSimulationInputModal: React.FC<UserSimulationInputModalProps> = ({
 
 			const result = await response.json();
 			console.log('Simulation result:', result);
-			alert('데이터가 성공적으로 전송되었습니다.');
-			router.push('/userSimulation');
+			setSimulationResult(result); // 결과를 저장
+			setShowResult(true); // 결과 모달 표시
 		} catch (error) {
 			console.error('Error:', error);
 			alert('데이터 전송에 실패했습니다. 다시 시도해 주세요.');
 		} finally {
-			onClose(); // 페이지 이동 후 모달 닫기
+			onClose();
 		}
 	};
 
@@ -254,6 +252,12 @@ const UserSimulationInputModal: React.FC<UserSimulationInputModalProps> = ({
 				<UserSimulationInputWarningModal
 					onClose={handleWarningClose}
 					onConfirm={handleWarningConfirm}
+				/>
+			)}
+			{showResult && (
+				<UserSimulationResultModal
+					result={simulationResult}
+					onClose={() => setShowResult(false)}
 				/>
 			)}
 		</>

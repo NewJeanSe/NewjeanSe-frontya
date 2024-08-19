@@ -3,14 +3,16 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import styles from '../styles/signUp/signUp.module.css';
 import SignUpModal from '../components/modal/signUpModal';
-import { callEmailVerificationApi } from '../lib/api'; // API 함수 임포트
+import { callEmailVerificationApi, callNewUserRegisterApi } from '../lib/api'; // API 함수 임포트
 
 const SignUpPage = () => {
 	const [username, setUsername] = useState('');
+	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [passwordConfirm, setPasswordConfirm] = useState('');
 	const [nickname, setNickname] = useState('');
 	const [emailCode, setEmailCode] = useState('');
+	const [verificationCode, setVerificationCode] = useState('');
 	const [errorMessage, setErrorMessage] = useState({
 		username: '',
 		usernameStyle: '',
@@ -36,21 +38,40 @@ const SignUpPage = () => {
 	const openModal = () => setModalOpen(true);
 	const closeModal = () => setModalOpen(false);
 
+	const handleEmailVerification = async () => {
+		try {
+			const response = await callEmailVerificationApi(email);
+			setVerificationCode(response);
+			alert('이메일로 인증번호를 전송했습니다.');
+		} catch (error) {
+			alert('인증번호 전송에 실패했습니다.');
+		}
+	};
+
+	// const handleUsernameDuplicateCheck = async () => {
+	// 	try {
+	// 		const response = await callUsernameDuplicateCheckApi(username);
+	// 		if (response === 'success') alert('사용가능한 아이디입니다.');
+	// 		else alert('이미 존재하는 아이디입니다.');
+	// 	} catch (error) {
+	// 		alert('이미 존재하는 아이디입니다..');
+	// 	}
+	// };
+
 	useEffect(() => {
-		// 회원 가입 관련 간이 로직 시작
 		const validateForm = () => {
 			// 아이디 유효성 검사
 			if (username.length >= 6) {
 				setErrorMessage(prev => ({
 					...prev,
 					username: '올바른 아이디 형식입니다',
-					usernameStyle: styles.successmessage, // 성공하면 css가 적용이 되야 해.
+					usernameStyle: styles.successmessage,
 				}));
 			} else if (username.length > 0) {
 				setErrorMessage(prev => ({
 					...prev,
 					username: '잘못된 형식입니다',
-					usernameStyle: styles.errormessage, // 실패하면 css가 적용이 되야 해.
+					usernameStyle: styles.errormessage,
 				}));
 			} else {
 				setErrorMessage(prev => ({
@@ -124,38 +145,36 @@ const SignUpPage = () => {
 			}
 
 			// 이메일 인증코드 검사
-			if (emailCode === '123') {
+			if (!emailCode || !verificationCode) {
+				setErrorMessage(prev => ({
+					...prev,
+					emailCode: '이메일 인증코드를 입력해주세요',
+					emailCodeStyle: styles.errormessage,
+				}));
+			} else if (emailCode === String(verificationCode)) {
 				setErrorMessage(prev => ({
 					...prev,
 					emailCode: '인증에 성공했습니다',
 					emailCodeStyle: styles.successmessage,
 				}));
-			} else if (emailCode.length > 0) {
-				setErrorMessage(prev => ({
-					...prev,
-					emailCode: '잘못된 형식입니다',
-					emailCodeStyle: styles.errormessage,
-				}));
 			} else {
 				setErrorMessage(prev => ({
 					...prev,
-					emailCode: '이메일 인증코드를 입력해주세요', // 빡세면 이것만 해.
+					emailCode: '잘못된 형식입니다',
 					emailCodeStyle: styles.errormessage,
 				}));
 			}
 		};
 
 		validateForm();
-	}, [username, password, passwordConfirm, nickname, emailCode]);
-
-	const handleEmailVerification = async () => {
-		try {
-			const response = await callEmailVerificationApi();
-			alert('이메일 인증에 성공했습니다: ' + response.message);
-		} catch (error) {
-			alert('이메일 인증에 실패했습니다.');
-		}
-	};
+	}, [
+		username,
+		password,
+		passwordConfirm,
+		nickname,
+		emailCode,
+		verificationCode,
+	]);
 
 	const router = useRouter();
 
@@ -172,13 +191,13 @@ const SignUpPage = () => {
 		});
 
 		if (isFormValid) {
+			callNewUserRegisterApi(username, password, nickname, email);
 			alert('회원 가입이 완료되었습니다.');
 			router.push('/login'); // 여기서 '/nextPage'를 이동하려는 페이지로 변경하세요
 		} else {
 			alert('모든 필드를 올바르게 입력해주세요.');
 		}
 	};
-	// 회원 가입 관련 간이 로직 끝
 
 	return (
 		<div className={styles.columncontrast}>
@@ -222,7 +241,7 @@ const SignUpPage = () => {
 						</div>
 						<label className={styles.edittext_one}>
 							<input
-								name="edittext"
+								name="username"
 								type="text"
 								value={username}
 								onChange={e => setUsername(e.target.value)}
@@ -243,7 +262,12 @@ const SignUpPage = () => {
 							이메일
 						</p>
 						<label className={styles.edittext_one}>
-							<input name="edittext_one" type="text" />
+							<input
+								name="email"
+								type="email"
+								value={email}
+								onChange={e => setEmail(e.target.value)}
+							/>
 						</label>
 						<p
 							className={`${styles.class_} ${styles.ui} ${styles.text} ${styles.sizeTextxs}`}
@@ -262,7 +286,7 @@ const SignUpPage = () => {
 						</p>
 						<label className={styles.edittext_two}>
 							<input
-								name="edittext_two"
+								name="emailcode"
 								type="text"
 								value={emailCode}
 								onChange={e => setEmailCode(e.target.value)}
@@ -298,7 +322,7 @@ const SignUpPage = () => {
 						</div>
 						<label className={styles.edittext_one}>
 							<input
-								name="edittext_three"
+								name="password"
 								type={hidePassword2 ? 'password' : 'text'}
 								value={password}
 								onChange={e => setPassword(e.target.value)}
@@ -356,7 +380,7 @@ const SignUpPage = () => {
 						</p>
 						<label className={styles.edittext_two}>
 							<input
-								name="edittext_five"
+								name="nickname"
 								type="text"
 								value={nickname}
 								onChange={e => setNickname(e.target.value)}

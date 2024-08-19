@@ -2,12 +2,41 @@ import React, { useState, useEffect } from 'react';
 import styles from '@/styles/login/LoginPage.module.css';
 import LoginFailedModal from '@/components/modal/loginFailedModal';
 import Image from 'next/image';
+import { callLoginApi } from '@/lib/api';
 
 const LoginPage = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 	const [savedUsername, setSavedUsername] = useState('');
+	const [authentication, setAuthentication] = useState('');
+
+	const handleLogin = async () => {
+		try {
+			const response = await callLoginApi(username, password);
+			if (response.status === 'success') {
+				setAuthentication(response.status);
+				alert('로그인에 성공했습니다.');
+				window.location.href = '/mainMap';
+			} else {
+				alert('로그인에 실패했습니다...');
+				setIsModalOpen(true); // 로그인 실패 시 모달 표시
+			}
+		} catch (error) {
+			alert('로그인에 실패했습니다..');
+			setIsModalOpen(true); // 예외 발생 시에도 모달 표시
+		}
+	};
+
+	const handleLoginClick = async () => {
+		await handleLogin();
+		// 이 부분은 필요 없을 수 있음, 이미 handleLogin 내부에서 성공 여부를 처리합니다.
+		// if (authentication === 'success') {
+		// 	window.location.href = '/mainMap';
+		// } else {
+		// 	setIsModalOpen(true);
+		// }
+	};
 
 	useEffect(() => {
 		if (typeof window !== 'undefined') {
@@ -16,14 +45,6 @@ const LoginPage = () => {
 			setUsername(saved);
 		}
 	}, []);
-
-	const handleLoginClick = () => {
-		if (username === 'a' && password === '1234') {
-			window.location.href = '/mainMap';
-		} else {
-			setIsModalOpen(true);
-		}
-	};
 
 	const closeModal = () => {
 		setIsModalOpen(false);
