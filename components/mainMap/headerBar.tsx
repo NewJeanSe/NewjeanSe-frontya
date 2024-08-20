@@ -46,7 +46,7 @@ const HeaderBar: React.FC<{
 
 	return (
 		<div className={styles.headerBar}>
-			<span className={styles.userName}>User&apos;s Nickname</span>
+			<span className={styles.userName}>멋진 지용</span>
 			<div className={styles.divider}></div>
 			{showSidebarToggle && (
 				<label className={styles.sidebarToggle}>

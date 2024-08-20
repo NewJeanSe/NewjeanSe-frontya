@@ -99,7 +99,9 @@ const BillDetail: React.FC<BillDetailProps> = ({ bill }) => {
 									className={styles.inputField}
 								/>
 							) : (
-								<span className={styles.detailValue}>{amountDue} 원</span>
+								<span className={styles.detailValue}>
+									{amountDue.toLocaleString()} 원
+								</span>
 							)}
 						</div>
 						<div className={styles.detailRow}>
@@ -112,7 +114,9 @@ const BillDetail: React.FC<BillDetailProps> = ({ bill }) => {
 									className={styles.inputField}
 								/>
 							) : (
-								<span className={styles.detailValue}>{powerUsage} kW/h</span>
+								<span className={styles.detailValue}>
+									{powerUsage.toLocaleString()} kW/h
+								</span>
 							)}
 						</div>
 					</div>

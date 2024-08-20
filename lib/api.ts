@@ -1,4 +1,4 @@
-const baseUrl = 'http://172.16.0.122:8080/';
+const baseUrl = 'http://10.221.251.36:8080/';
 
 export const callEmailVerificationApi = async (email: string) => {
 	try {

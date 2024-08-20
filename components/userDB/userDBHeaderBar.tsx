@@ -44,7 +44,7 @@ const UserDBHeaderBar: React.FC<{
 
 	return (
 		<div className={styles.headerBar}>
-			<span className={styles.userName}>User&apos;s Nickname</span>
+			<span className={styles.userName}>멋진 지용</span>
 			<div className={styles.divider}></div>
 			<div className={styles.headerButtons}>
 				<button className={styles.headerButton} onClick={handleMainMapClick}>

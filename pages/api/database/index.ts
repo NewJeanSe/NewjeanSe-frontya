@@ -65,70 +65,31 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 		writeDatabase(database);
 		res.status(201).json({ message: 'Entry added successfully' });
 	}
-	// PUT 요청 처리: 항목 업데이트 및 즐겨찾기 토글
+	// PUT 요청 처리: 항목 업데이트
 	else if (req.method === 'PUT') {
-		const { action, polygonId, name } = req.body;
+		const { id, dueDate, amountDue, powerUsage } = req.body;
 
-		if (action === 'toggleFavorite') {
-			// 유효성 검사: polygonId와 name이 필수
-			if (!polygonId || !name) {
-				res.status(400).json({ error: 'Invalid input' });
-				return;
-			}
+		// 데이터베이스에서 해당 ID의 항목 찾기
+		const billIndex = database.bills.findIndex((bill: any) => bill.id === id);
 
-			// 데이터베이스에서 해당 폴리곤 찾기
-			const favoriteItem = database.favorites.find(
-				(item: any) => item.polygonId === polygonId,
-			);
-
-			if (!favoriteItem) {
-				// 즐겨찾기에 없는 경우, 추가
-				database.favorites.push({
-					polygonId,
-					name,
-					isFavorite: true,
-				});
-				// 시/군/구 데이터베이스에 항목 추가
-				database.districts.push({
-					id: polygonId,
-					name,
-					createdDate: new Date().toISOString().split('T')[0],
-					updatedDate: new Date().toISOString().split('T')[0],
-				});
-				console.log(`Added to favorites and district database: ${polygonId}`);
-			} else if (!favoriteItem.isFavorite) {
-				// 즐겨찾기 상태가 false인 경우 true로 변경
-				favoriteItem.isFavorite = true;
-				// 시/군/구 데이터베이스에 항목 추가
-				database.districts.push({
-					id: polygonId,
-					name,
-					createdDate: new Date().toISOString().split('T')[0],
-					updatedDate: new Date().toISOString().split('T')[0],
-				});
-				console.log(
-					`Set isFavorite to true and added to district database for ${polygonId}`,
-				);
-			} else {
-				// 이미 즐겨찾기에 추가된 경우, isFavorite을 false로 변경
-				favoriteItem.isFavorite = false;
-				// 시/군/구 데이터베이스에서 해당 항목 삭제
-				database.districts = database.districts.filter(
-					(district: any) => district.id !== polygonId,
-				);
-				console.log(
-					`Set isFavorite to false and removed from district database for ${polygonId}`,
-				);
-			}
-
-			// 데이터베이스 업데이트
-			writeDatabase(database);
-			res.status(200).json({ message: 'Favorite status updated successfully' });
-		} else {
-			res.status(400).json({ error: 'Invalid action' });
+		if (billIndex === -1) {
+			res.status(404).json({ error: 'Bill not found' });
+			return;
 		}
-	}
 
+		// 항목 업데이트
+		database.bills[billIndex] = {
+			...database.bills[billIndex],
+			dueDate,
+			amountDue,
+			powerUsage,
+			updatedDate: new Date().toISOString().split('T')[0], // 업데이트일 갱신
+		};
+
+		// 데이터베이스 업데이트
+		writeDatabase(database);
+		res.status(200).json({ message: 'Entry updated successfully' });
+	}
 	// DELETE 요청 처리: 항목 삭제
 	else if (req.method === 'DELETE') {
 		const { ids, type } = req.body;

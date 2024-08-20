@@ -6,7 +6,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 		console.log('Request received at /api/electricRuntimeKoreaDemandData');
 
 		const response = await axios.get(
-			'https://d67d-35-194-130-247.ngrok-free.app/predict', // Flask 서버 URL
+			'https://a311-34-73-73-241.ngrok-free.app/predict', // Flask 서버 URL
 		);
 
 		console.log('Response received from Flask server:', response.data);

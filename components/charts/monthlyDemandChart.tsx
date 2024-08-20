@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import {
 	LineChart,
 	Line,
@@ -45,33 +44,38 @@ const formatYAxis = (tickItem: number) => {
 	}
 };
 
+// 예측 데이터 타입 선언
+type Predictions = {
+	August: number;
+	October: number;
+	September: number;
+};
+
 const MonthlyDemandChart: React.FC<MonthlyDemandChartProps> = ({
 	polygonId,
 }) => {
 	const [data, setData] = useState<any[]>([]);
 
 	useEffect(() => {
-		const fetchMonthlyDemandData = async () => {
-			try {
-				const response = await axios.get(`/api/monthlyDemand/${polygonId}`);
-				const { predictions } = response.data;
-
-				// 받은 데이터를 차트에 맞게 포맷하고, 월을 숫자로 변환하여 정렬
-				const formattedData = Object.keys(predictions)
-					.map(month => ({
-						month: `${monthNameToNumber(month)}월`, // 'August'를 '8월'로 변환
-						demand: predictions[month],
-						monthNumber: monthNameToNumber(month), // 정렬을 위한 숫자
-					}))
-					.sort((a, b) => a.monthNumber - b.monthNumber); // 월 숫자 기준으로 정렬
-
-				setData(formattedData);
-			} catch (error) {
-				console.error('Error fetching monthly demand data:', error);
-			}
+		// 하드코딩된 데이터를 사용합니다.
+		const predictions: Predictions = {
+			August: 309239731.31626356,
+			October: 305151335.010419,
+			September: 305815897.15885013,
 		};
 
-		fetchMonthlyDemandData();
+		// 데이터를 차트에 맞게 포맷하고, 월을 숫자로 변환하여 정렬
+		const formattedData = (
+			Object.keys(predictions) as Array<keyof typeof predictions>
+		)
+			.map(month => ({
+				month: `${monthNameToNumber(month)}월`, // 'August'를 '8월'로 변환
+				demand: predictions[month],
+				monthNumber: monthNameToNumber(month), // 정렬을 위한 숫자
+			}))
+			.sort((a, b) => a.monthNumber - b.monthNumber); // 월 숫자 기준으로 정렬
+
+		setData(formattedData);
 	}, [polygonId]);
 
 	return (

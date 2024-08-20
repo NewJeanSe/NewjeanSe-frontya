@@ -44,7 +44,7 @@ const SimulationHeaderBar: React.FC<{
 
 	return (
 		<div className={styles.headerBar}>
-			<span className={styles.userName}>User&apos;s Nickname</span>
+			<span className={styles.userName}>멋진 지용</span>
 			<div className={styles.divider}></div>
 			<label className={styles.sidebarToggle}>
 				<input

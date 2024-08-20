@@ -10,7 +10,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 		// Flask 서버로 요청을 보냅니다.
 		// 여기서 polygonId를 포함한 URL을 사용하여 Flask 서버에서 해당 폴리곤의 데이터를 요청합니다.
 		const response = await axios.get(
-			`https://d331-34-86-181-244.ngrok-free.app/predict/${polygonId}`,
+			`https://e214-34-74-48-166.ngrok-free.app/predict/${polygonId}`,
 		);
 
 		// 받은 데이터를 콘솔에 출력합니다.

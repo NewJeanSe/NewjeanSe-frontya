@@ -39,13 +39,20 @@ const UserDataBaseMain: React.FC = () => {
 				...item,
 				type: 'district',
 			}));
-			const billsWithType = data.bills.map((item: any) => ({
-				...item,
-				type: 'bill',
-				dueDate: item.dueDate,
-				amountDue: item.amountDue,
-				powerUsage: item.powerUsage,
-			}));
+
+			const billsWithType = data.bills.map((item: any) => {
+				// amountDue와 powerUsage 값 처리
+				const amountDue = parseFloat((item.amountDue ?? '0').replace(/,/g, ''));
+				const powerUsage = parseFloat(item.powerUsage ?? '0');
+
+				return {
+					...item,
+					type: 'bill',
+					dueDate: item.dueDate,
+					amountDue: isNaN(amountDue) ? 0 : amountDue, // 잘못된 숫자일 경우 0 처리
+					powerUsage: isNaN(powerUsage) ? 0 : powerUsage, // 잘못된 숫자일 경우 0 처리
+				};
+			});
 
 			setDistrictDatabase(districtsWithType);
 			setElectricityBillDatabase(billsWithType);
@@ -421,22 +428,26 @@ const UserDataBaseMain: React.FC = () => {
 									</td>
 									<td onDoubleClick={() => handleDoubleClick(bill.id)}>
 										{bill.name}
-									</td>{' '}
-									{/* 더블 클릭 이벤트 추가 */}
-									<td>{bill.amountDue} 원</td>
-									<td>{bill.powerUsage} kW/H</td>
+									</td>
+									<td>{(bill.amountDue ?? 0).toLocaleString()} 원</td>{' '}
+									{/* 'undefined'일 경우 0으로 처리 */}
+									<td>{(bill.powerUsage ?? 0).toLocaleString()} kW/H</td>{' '}
+									{/* 'undefined'일 경우 0으로 처리 */}
 									<td>{bill.dueDate}</td>
 									<td>{bill.createdDate}</td>
 									<td>{bill.updatedDate}</td>
 								</tr>
 							))}
 						</tbody>
+
 						<tfoot>
 							<tr>
 								<th></th> {/* 빈 공간을 위한 열 */}
 								<th>총합</th>
-								<th>{totalAmountDue} 원</th>
-								<th>{totalPowerUsage} kW/H</th>
+								<th>{totalAmountDue.toLocaleString()} 원</th>{' '}
+								{/* 로케일에 맞게 출력 */}
+								<th>{totalPowerUsage.toLocaleString()} kW/H</th>{' '}
+								{/* 로케일에 맞게 출력 */}
 								<th colSpan={3}></th>{' '}
 								{/* 남은 공간을 채우기 위해 colspan 사용 */}
 							</tr>

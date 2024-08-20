@@ -13,13 +13,14 @@ const HomePage = () => {
 
 	const [currentStartIndex, setCurrentStartIndex] = useState(0);
 	const images = [
-		'/images/미리보기 1번 이미지.png',
-		'/images/미리보기 2번 이미지-바꾸자.png',
-		'/images/미리보기 전국 차트.png',
-		'/images/미리보기 시군구 차트-바꾸자.png',
-		'/images/미리보기 시뮬레이션-바꾸자.png',
-		'/images/미리보기 OCR 결과창.png',
-		'/images/미리보기 사용자 DB.png',
+		'/images/미리보기 1번 홈페이지.png',
+		'/images/미리보기 2번 이미지-로그인 페이지.png',
+		'/images/미리보기 3번 회원가입 페이지.png',
+		'/images/미리보기 4번 실시간 전국 전력 예측 차트.png',
+		'/images/미리보기 5번 시군구 차트-미완성.png',
+		'/images/미리보기 6번 시뮬레이션 차트.png',
+		'/images/미리보기 8번 데이터베이스.png',
+		'/images/미리보기 9번 OCR DB.png',
 	];
 
 	const redirectToLogin = () => {
